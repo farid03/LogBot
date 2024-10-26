@@ -6,13 +6,12 @@ plugins {
 	kotlin("plugin.jpa") version "1.9.25"
 }
 
-group = "com.vk"
+group = "com.vk.logbot"
 version = "0.0.1"
 
 kotlin {
 	jvmToolchain {
 		languageVersion.set(JavaLanguageVersion.of(17))
-		vendor.set(JvmVendorSpec.ADOPTIUM)
 	}
 }
 
