@@ -10,3 +10,9 @@ springdoc:
     path: /api-docs
   swagger-ui:
     path: /swagger
+
+telegram:
+  api-url: https://api.telegram.org
+  webhook-path: webhook_path
+  bot-username: DWS_VK_LogBot
+  bot-token: bot_token

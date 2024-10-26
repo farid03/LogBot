@@ -3,7 +3,6 @@ plugins {
     kotlin("plugin.spring") version "1.9.25"
     id("org.springframework.boot") version "3.3.4"
     id("io.spring.dependency-management") version "1.1.6"
-    kotlin("plugin.jpa") version "1.9.25"
 }
 
 group = "com.vk.logbot"
@@ -24,7 +23,9 @@ val versions = libs.versions
 dependencies {
     // spring
     implementation("org.springframework.boot:spring-boot-starter-web")
-//	implementation("org.springframework.boot:spring-boot-starter-data-jpa") // раскомментить когда появится БД
+
+    // telegram
+    implementation("org.telegram:telegrambots-spring-boot-starter:6.9.7.1")
 
     // kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
@@ -44,12 +45,6 @@ kotlin {
     compilerOptions {
         freeCompilerArgs.addAll("-Xjsr305=strict")
     }
-}
-
-allOpen {
-    annotation("jakarta.persistence.Entity")
-    annotation("jakarta.persistence.MappedSuperclass")
-    annotation("jakarta.persistence.Embeddable")
 }
 
 tasks.withType<Test> {
