@@ -13,13 +13,13 @@ import org.telegram.telegrambots.meta.api.objects.Update
 @RestController
 class WebhookController(val logBot: LogBot) {
 
-	@PostMapping("/callback/update")
-	fun onWebhookUpdateReceived(@RequestBody update: Update): BotApiMethod<*> {
-		return logBot.onWebhookUpdateReceived(update)
-	}
+    @PostMapping("/callback/update")
+    fun onWebhookUpdateReceived(@RequestBody update: Update): BotApiMethod<*> {
+        return logBot.onWebhookUpdateReceived(update)
+    }
 
-	@ExceptionHandler(BotException::class)
-	fun handleBotException(e: BotException): BotApiMethod<*> {
-		return SendMessage(e.chatId, e.publicMessage)
-	}
+    @ExceptionHandler(BotException::class)
+    fun handleBotException(e: BotException): BotApiMethod<*> {
+        return SendMessage(e.chatId, e.publicMessage)
+    }
 }

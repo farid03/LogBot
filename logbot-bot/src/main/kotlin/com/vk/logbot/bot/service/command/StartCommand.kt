@@ -8,10 +8,10 @@ import org.telegram.telegrambots.meta.api.objects.Message
 @BotCommand
 class StartCommand : Command {
 
-	private val answer = "Добро пожаловать! Отправьте конфигурационный файл"
+    private val answer = "Добро пожаловать! Отправьте конфигурационный файл"
 
-	override fun execute(message: Message): BotApiMethod<*> {
-		val chatId = getChatId(message)
-		return SendMessage(chatId, answer)
-	}
+    override fun execute(message: Message): BotApiMethod<*> {
+        val chatId = getChatId(message)
+        return SendMessage(chatId, answer)
+    }
 }

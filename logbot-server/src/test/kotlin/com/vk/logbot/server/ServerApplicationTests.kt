@@ -7,9 +7,9 @@ import org.springframework.boot.test.context.SpringBootTest
 @SpringBootTest
 class ServerApplicationTests {
 
-	@Test
-	fun contextLoads() {
-		1 + 1 shouldBe 2
-	}
+    @Test
+    fun contextLoads() {
+        1 + 1 shouldBe 2
+    }
 
 }

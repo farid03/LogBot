@@ -10,27 +10,27 @@ import org.telegram.telegrambots.meta.api.objects.Update
 
 @Component
 class LogBot(
-	val telegramConfig: TelegramConfig,
-	val callbackQueryHandler: CallbackQueryHandler,
-	val messageHandler: MessageHandler
+    val telegramConfig: TelegramConfig,
+    val callbackQueryHandler: CallbackQueryHandler,
+    val messageHandler: MessageHandler
 ) : TelegramWebhookBot(telegramConfig.botToken) {
 
-	init {
-		setWebhook(telegramConfig.setWebHook())
-	}
+    init {
+        setWebhook(telegramConfig.setWebHook())
+    }
 
-	override fun getBotPath(): String {
-		return "/update"
-	}
+    override fun getBotPath(): String {
+        return "/update"
+    }
 
-	override fun getBotUsername(): String {
-		return telegramConfig.botUsername
-	}
+    override fun getBotUsername(): String {
+        return telegramConfig.botUsername
+    }
 
-	override fun onWebhookUpdateReceived(update: Update): BotApiMethod<*> {
-		if (update.hasCallbackQuery()) {
-			return callbackQueryHandler.handle(update.callbackQuery)
-		}
-		return messageHandler.handle(update.message)
-	}
+    override fun onWebhookUpdateReceived(update: Update): BotApiMethod<*> {
+        if (update.hasCallbackQuery()) {
+            return callbackQueryHandler.handle(update.callbackQuery)
+        }
+        return messageHandler.handle(update.message)
+    }
 }

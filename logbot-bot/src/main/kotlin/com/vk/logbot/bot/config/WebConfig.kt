@@ -7,8 +7,8 @@ import org.springframework.web.client.RestTemplate
 @Configuration
 class WebConfig {
 
-	@Bean
-	fun restTemplate(): RestTemplate {
-		return RestTemplate()
-	}
+    @Bean
+    fun restTemplate(): RestTemplate {
+        return RestTemplate()
+    }
 }

@@ -10,25 +10,25 @@ import org.telegram.telegrambots.meta.api.objects.Message
 
 @Service
 class MessageHandler(
-	startCommand: StartCommand,
-	uploadConfigFileCommand: FileCommand.UploadConfigFileCommand
+    startCommand: StartCommand,
+    uploadConfigFileCommand: FileCommand.UploadConfigFileCommand
 ) {
 
-	private val commands: MutableMap<String, Command> = HashMap()
-	private val fileCommand = uploadConfigFileCommand
+    private val commands: MutableMap<String, Command> = HashMap()
+    private val fileCommand = uploadConfigFileCommand
 
-	init {
-		commands["/start"] = startCommand
-	}
+    init {
+        commands["/start"] = startCommand
+    }
 
-	fun handle(message: Message): BotApiMethod<*> {
-		if (message.hasDocument()) {
-			return fileCommand.execute(message)
-		}
+    fun handle(message: Message): BotApiMethod<*> {
+        if (message.hasDocument()) {
+            return fileCommand.execute(message)
+        }
 
-		return commands[message.text]?.execute(message) ?: throw BotCommandNotFoundException(
-			message.text,
-			message.chat.id.toString()
-		)
-	}
+        return commands[message.text]?.execute(message) ?: throw BotCommandNotFoundException(
+            message.text,
+            message.chat.id.toString()
+        )
+    }
 }

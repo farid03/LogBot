@@ -7,7 +7,7 @@ import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 @Service
 class CallbackQueryHandler {
 
-	fun handle(callbackQuery: CallbackQuery): BotApiMethod<*> {
-		TODO()
-	}
+    fun handle(callbackQuery: CallbackQuery): BotApiMethod<*> {
+        TODO()
+    }
 }
