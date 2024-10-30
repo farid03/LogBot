@@ -1,0 +1,12 @@
+spring:
+  application:
+    name: logbot-server
+
+server:
+  port: 8080
+
+springdoc:
+  api-docs:
+    path: /api-docs
+  swagger-ui:
+    path: /swagger

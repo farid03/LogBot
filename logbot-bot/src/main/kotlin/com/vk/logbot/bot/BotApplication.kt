@@ -1,11 +1,11 @@
-package com.vk.logbot
+package com.vk.logbot.bot
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
 
 @SpringBootApplication
-class LogbotApplication
+class BotApplication
 
 fun main(args: Array<String>) {
-	runApplication<LogbotApplication>(*args)
+    runApplication<BotApplication>(*args)
 }
