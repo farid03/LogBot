@@ -9,20 +9,21 @@ import org.springframework.stereotype.Service
 @Service
 class ConfigService {
 
+    private val configs: List<Config> = listOf(Config(1, 1, "errorName", "ERROR"), Config(2, 1, "debugName", "DEBUG"));
+
     fun convertConfigToDTO(config: Config): ConfigDto {
         return ConfigDto(config.regExp);
     }
 
-    fun getConfigsDtoByUserId(userId: Int): List<ConfigDto> {
+    fun getConfigsDtoByUserIdAndName(userId: Long, configName: String?): List<ConfigDto> {
+        if (configName != null) {
+            return configs.filter { config -> config.name == configName }.map { convertConfigToDTO(it) };
+        }
         return listOf(Config(1, 1, "errorName", "ERROR"), Config(2, 1, "debugName", "DEBUG"))
             .map { convertConfigToDTO(it) };
     }
 
-    fun getConfigsDtoByUserIdAndName(userId: Int, configName: String): ConfigDto {
-        return ConfigDto("ERROR");
-    }
-
-    fun getConfigDtoById(userId: Int): ConfigDto {
+    fun getConfigDtoById(userId: Long): ConfigDto {
         return ConfigDto("DEBUG");
     }
 
@@ -34,7 +35,7 @@ class ConfigService {
         return ConfigDto(editConfigDto.regExp);
     }
 
-    fun deleteConfig(id: Int): Boolean {
+    fun deleteConfig(id: Long): Boolean {
         return true;
     }
 }
