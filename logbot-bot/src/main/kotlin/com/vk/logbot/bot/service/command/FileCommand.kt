@@ -15,13 +15,11 @@ sealed interface FileCommand : Command {
     @BotCommand
     class UploadConfigFileCommand(private val fileDownloader: FileDownloader) : FileCommand {
 
-        private val answer = "Файл успешно загружен! Содержимое файла:\n"
-
         override fun execute(message: Message): BotApiMethod<*> {
             val chatId = getChatId(message)
             val fileId = getFileId(message)
             val fileContent = fileDownloader.getFile(fileId, chatId).readText()
-            return SendMessage(chatId, "$answer$fileContent")
+            return SendMessage(chatId, "Файл успешно загружен! Содержимое файла:\n$fileContent")
         }
     }
 }
