@@ -23,9 +23,13 @@ val versions = libs.versions
 dependencies {
     // spring
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
 
     // telegram
     implementation("org.telegram:telegrambots-spring-boot-starter:6.9.7.1")
+
+    // cache
+    implementation("com.google.guava:guava:33.3.1-jre")
 
     // kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")

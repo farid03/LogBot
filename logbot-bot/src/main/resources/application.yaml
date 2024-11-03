@@ -11,8 +11,11 @@ springdoc:
   swagger-ui:
     path: /swagger
 
-telegram:
+bot:
   api-url: https://api.telegram.org
-  webhook-path: webhook_path
-  bot-username: DWS_VK_LogBot
-  bot-token: bot_token
+  webhook-path: bot_webhook_path
+  username: DWS_VK_LogBot
+  token: bot_token
+
+cache:
+  expiration-time: 1h
