@@ -3,9 +3,9 @@
 Для запуска бота необходимо определить следующие переменные (указаны
 в [application.yaml](src/main/resources/application.yaml)):
 
-* webhook-path - адрес вебхука
-* bot-username - юзернейм бота, выданный [@BotFather](https://t.me/BotFather)
-* bot-token - токен бота, выданный [@BotFather](https://t.me/BotFather)
+* bot.webhook-path - адрес вебхука
+* bot.username - юзернейм бота, выданный [@BotFather](https://t.me/BotFather)
+* bot.token - токен бота, выданный [@BotFather](https://t.me/BotFather)
 
 ## Получение адреса вебхука для локального запуска
 
@@ -15,3 +15,8 @@
 2. Запустить Ngrok командой `ngrok http <port>`, в качестве значения `port` необходимо использовать порт приложения бота
 3. Скопировать сгенерированную ссылку из Forwarding и вставить её как значение в `webhook-path`
 4. Запустить приложение бота
+
+## Запуск без PostgreSQL
+
+Стандартный запуск бота требует запущенный сервер PostgreSQL с созданной на нём БД logbot_bot_db.
+Для того, чтобы запустить бота с базой данных H2 в оперативной памяти, необходимо запустить приложение под профилем dev.
