@@ -18,9 +18,9 @@ class StateNames {
         const val CONFIGURATIONS_MENU = "configurationsMenuState"
 
         /**
-         * Создание новой конфигурации (ожидание ввода названия конфигурации или загрузки файла).
+         * Создание новой конфигурации (ожидание ввода названия конфигурации).
          */
-        const val CREATE_CONFIGURATION_AWAITING_NAME_OR_FILE = "createConfigurationAwaitingNameOrFileState"
+        const val CREATE_CONFIGURATION_AWAITING_NAME = "createConfigurationAwaitingNameState"
 
         /**
          * Создание конфигурации (ожидание ввода регулярного выражения).

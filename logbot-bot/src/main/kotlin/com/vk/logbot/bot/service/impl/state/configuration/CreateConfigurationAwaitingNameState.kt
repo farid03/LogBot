@@ -14,10 +14,10 @@ import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
 
 /**
- * Создание новой конфигурации (ожидание ввода названия конфигурации или загрузки файла).
+ * Создание новой конфигурации (ожидание ввода названия конфигурации).
  */
-@BotState(StateNames.CREATE_CONFIGURATION_AWAITING_NAME_OR_FILE)
-class CreateConfigurationAwaitingNameOrFileState(
+@BotState(StateNames.CREATE_CONFIGURATION_AWAITING_NAME)
+class CreateConfigurationAwaitingNameState(
     stateContext: StateContext,
     botApiMethodExecutor: BotApiMethodExecutor, keyboardCreator: KeyboardCreator,
     private val cache: Cache<CacheKey, Any>
@@ -30,17 +30,12 @@ class CreateConfigurationAwaitingNameOrFileState(
     override fun initState(chatId: Long) {
         cache.invalidate(CacheKey(chatId, CacheDataType.CREATABLE_CONFIGURATION_NAME))
 
-        val answer = SendMessage(chatId.toString(), "Введите название конфигурации или отправьте файл")
+        val answer = SendMessage(chatId.toString(), "Введите название конфигурации")
         answer.replyMarkup = replyKeyboardMarkup
         botApiMethodExecutor.executeBotApiMethod(answer)
     }
 
     override fun handleNotCommandMessage(chatId: Long, message: Message) {
-        if (message.hasDocument()) {
-            //todo: логика обработки файла
-            return
-        }
-
         if (!message.hasText()) {
             initState(chatId)
             return

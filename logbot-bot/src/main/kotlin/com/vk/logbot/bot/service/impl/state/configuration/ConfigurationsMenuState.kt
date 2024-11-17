@@ -18,7 +18,7 @@ class ConfigurationsMenuState(
     keyboardCreator: KeyboardCreator
 ) : State(
     stateContext, botApiMethodExecutor, keyboardCreator, linkedMapOf(
-        Command.CREATE to StateNames.CREATE_CONFIGURATION_AWAITING_NAME_OR_FILE,
+        Command.CREATE to StateNames.CREATE_CONFIGURATION_AWAITING_NAME,
         Command.EDIT to StateNames.EDIT_CONFIGURATION_MENU,
         Command.REMOVE to StateNames.REMOVE_CONFIGURATION_MENU,
         Command.BACK to StateNames.MAIN_MENU

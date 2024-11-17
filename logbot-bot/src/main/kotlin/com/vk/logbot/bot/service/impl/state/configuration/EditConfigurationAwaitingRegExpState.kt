@@ -10,6 +10,7 @@ import com.vk.logbot.bot.service.BotApiMethodExecutor
 import com.vk.logbot.bot.service.State
 import com.vk.logbot.bot.service.StateContext
 import com.vk.logbot.bot.temp.ConfigDao
+import com.vk.logbot.bot.util.FileDownloader
 import com.vk.logbot.bot.util.KeyboardCreator
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
@@ -23,7 +24,8 @@ class EditConfigurationAwaitingRegExpState(
     botApiMethodExecutor: BotApiMethodExecutor,
     keyboardCreator: KeyboardCreator,
     private val cache: Cache<CacheKey, Any>,
-    private val configDao: ConfigDao
+    private val configDao: ConfigDao,
+    private val fileDownloader: FileDownloader
 ) : State(
     stateContext,
     botApiMethodExecutor,
@@ -34,13 +36,13 @@ class EditConfigurationAwaitingRegExpState(
     )
 ) {
     override fun initState(chatId: Long) {
-        val answer = SendMessage(chatId.toString(), "Введите новое регулярное выражение")
+        val answer = SendMessage(chatId.toString(), "Введите новое регулярное выражение или загрузите файл с ним")
         answer.replyMarkup = replyKeyboardMarkup
         botApiMethodExecutor.executeBotApiMethod(answer)
     }
 
     override fun handleNotCommandMessage(chatId: Long, message: Message) {
-        if (!message.hasText()) {
+        if (!message.hasText() && !message.hasDocument()) {
             initState(chatId)
             return
         }
@@ -56,8 +58,16 @@ class EditConfigurationAwaitingRegExpState(
             stateContext.switchState(chatId, StateNames.EDIT_CONFIGURATION_MENU)
             return
         }
-        configDao.editRegexpInConfigById(configId, message.text)
+
+        val newRegExp = if (message.hasDocument()) {
+            val file = fileDownloader.getFile(message.document.fileId)
+            file.readText()
+        } else {
+            message.text
+        }
+        configDao.editRegexpInConfigById(configId, newRegExp)
         cache.invalidate(cacheKey)
+        
         botApiMethodExecutor.executeBotApiMethod(
             SendMessage(
                 chatId.toString(),
