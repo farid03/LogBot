@@ -24,6 +24,9 @@ dependencies {
     // commons
     implementation(project(":logbot-commons"))
 
+    // rest client
+    implementation(project(":logbot-server-rest-client"))
+
     // spring
     implementation("org.springframework.boot:spring-boot-starter-web")
 
