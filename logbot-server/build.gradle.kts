@@ -22,6 +22,9 @@ repositories {
 val versions = libs.versions
 
 dependencies {
+    // commons
+    implementation(project(":logbot-commons"))
+
     // spring
     implementation("org.springframework.boot:spring-boot-starter-web")
 //	implementation("org.springframework.boot:spring-boot-starter-data-jpa") // раскомментить когда появится БД
