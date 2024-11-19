@@ -1,3 +1,3 @@
 rootProject.name = "logbot"
 
-include("logbot-server", "logbot-bot")
+include("logbot-commons", "logbot-server", "logbot-bot")
