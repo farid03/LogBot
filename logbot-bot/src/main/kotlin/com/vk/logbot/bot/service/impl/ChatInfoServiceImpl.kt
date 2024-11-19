@@ -13,7 +13,7 @@ class ChatInfoServiceImpl(private val chatInfoRepository: ChatInfoRepository) : 
     }
 
     override fun createNewChatInfo(chatId: Long, userId: Long): ChatInfo {
-        return chatInfoRepository.save(ChatInfo(chatId, userId, null))
+        return chatInfoRepository.save(ChatInfo(chatId, userId, null, false))
     }
 
     override fun updateChatInfoLastState(chatId: Long, lastStateName: String) {
@@ -24,5 +24,11 @@ class ChatInfoServiceImpl(private val chatInfoRepository: ChatInfoRepository) : 
 
     override fun getUserIdByChatId(chatId: Long): Long? {
         return getChatInfoByChatId(chatId)?.userId
+    }
+
+    override fun updateChatInfoIsAuthorized(chatId: Long, isAuthorized: Boolean) {
+        val chatInfo = chatInfoRepository.findById(chatId).get()
+        chatInfo.isAuthorized = isAuthorized
+        chatInfoRepository.save(chatInfo)
     }
 }
