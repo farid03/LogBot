@@ -72,6 +72,7 @@ abstract class State(
             stateContext.switchState(chatId, commandStateNameMap[command]!!)
             return
         }
+        botApiMethodExecutor.executeBotApiMethod(SendMessage(chatId.toString(), "Неизвестная команда"))
     }
 
     /**
