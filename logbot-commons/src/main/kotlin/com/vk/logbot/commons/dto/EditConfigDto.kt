@@ -1,4 +1,4 @@
-package com.vk.logbot.server.models.modelsDto
+package com.vk.logbot.commons.dto
 
 
 data class EditConfigDto(

@@ -33,6 +33,7 @@ dependencies {
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     // json
+    implementation("org.modelmapper:modelmapper:3.2.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // swagger
