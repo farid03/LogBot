@@ -1,6 +1,19 @@
 spring:
   application:
     name: logbot-server
+  datasource:
+      url: CHANGE_IT
+      username: CHANGE_IT
+      password: CHANGE_IT
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: update
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    baselineOnMigrate: true
+
 
 server:
   port: 8080

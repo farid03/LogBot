@@ -4,40 +4,45 @@ import com.vk.logbot.commons.dto.ConfigDto
 import com.vk.logbot.server.models.Config
 import com.vk.logbot.commons.dto.CreatingConfigDto
 import com.vk.logbot.commons.dto.EditConfigDto
+import com.vk.logbot.server.repositories.ConfigRepository
 import org.modelmapper.ModelMapper
 import org.springframework.stereotype.Service
 
 @Service
-class ConfigService {
+class ConfigService(private val configRepository: ConfigRepository) {
 
     private val modelMapper: ModelMapper = ModelMapper()
-    private val configs: List<Config> = listOf(Config(1, 1, "errorName", "ERROR"), Config(2, 1, "debugName", "DEBUG"))
 
-    fun convertConfigToDto(config: Config): ConfigDto {
+    fun convertConfigToDto(config: Config?): ConfigDto {
+        if (config == null) return ConfigDto(0, "name", "none")
         return modelMapper.map(config, ConfigDto::class.java)
+    }
+
+    fun convertCreatingConfigDtoToConfig(creatingConfigDto: CreatingConfigDto): Config {
+        return modelMapper.map(creatingConfigDto, Config::class.java)
     }
 
     fun getConfigsDtoByUserIdAndName(userId: Long, configName: String?): List<ConfigDto> {
         if (configName != null) {
-            return configs.filter { config -> config.name == configName }.map { convertConfigToDto(it) }
+            return configRepository.findConfigsByNameAndUserId(configName, userId).map { convertConfigToDto(it) }
         }
-        return listOf(Config(1, 1, "errorName", "ERROR"), Config(2, 1, "debugName", "DEBUG"))
-            .map { convertConfigToDto(it) }
+        return configRepository.findConfigsByUserId(userId).map { convertConfigToDto(it) }
     }
 
-    fun getConfigDtoById(userId: Long): ConfigDto {
-        return ConfigDto(2, "DEBUG", "DEBUG")
+    fun getConfigDtoById(configId: Long): ConfigDto {
+        return convertConfigToDto(configRepository.findConfigById(configId))
     }
 
     fun createConfig(creatingConfigDto: CreatingConfigDto): ConfigDto {
-        return ConfigDto(3, "NAME", creatingConfigDto.regExp)
+        return convertConfigToDto(configRepository.save(convertCreatingConfigDtoToConfig(creatingConfigDto)))
     }
 
     fun editConfig(editConfigDto: EditConfigDto): ConfigDto {
-        return ConfigDto(4, "NAME", editConfigDto.regExp)
+        val number = configRepository.updateConfigById(editConfigDto, editConfigDto.id)
+        return convertConfigToDto(Config(1, 1,"null", "null"))
     }
 
-    fun deleteConfig(id: Long): Boolean {
-        return true
+    fun deleteConfig(id: Long) {
+        return configRepository.deleteById(id)
     }
 }

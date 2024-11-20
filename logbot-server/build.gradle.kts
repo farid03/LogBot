@@ -27,7 +27,9 @@ dependencies {
 
     // spring
     implementation("org.springframework.boot:spring-boot-starter-web")
-//	implementation("org.springframework.boot:spring-boot-starter-data-jpa") // раскомментить когда появится БД
+	implementation("org.springframework.boot:spring-boot-starter-data-jpa") // раскомментить когда появится БД
+    implementation("org.flywaydb:flyway-core:9.22.3")
+    implementation("org.postgresql:postgresql:42.7.4")
 
     // kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
