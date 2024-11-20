@@ -18,6 +18,10 @@ class MockClient(
     }
 
     fun post(): Any {
-        return restClient.post().uri("$serverUrl/mocks").body(Any()).retrieve().toEntity(Any::class.java)
+        return restClient.post()
+            .uri("$serverUrl/mocks")
+            .body(Any())
+            .retrieve()
+            .toEntity(Any::class.java)
     }
 }
