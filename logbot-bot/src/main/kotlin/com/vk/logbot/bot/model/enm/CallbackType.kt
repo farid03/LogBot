@@ -16,6 +16,11 @@ enum class CallbackType {
     EDIT_CONFIGURATION_MENU_CHOICE_FOR_EDIT_REG_EXP,
 
     /**
+     * Выбор конфигурации для изменения сообщения.
+     */
+    EDIT_CONFIGURATION_MENU_CHOICE_FOR_EDIT_MESSAGE,
+
+    /**
      * Выбор конфигурации для удаления.
      */
     REMOVE_CONFIGURATION_MENU_CHOICE;

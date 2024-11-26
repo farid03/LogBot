@@ -35,6 +35,7 @@ class EditConfigurationMenu(
     stateContext, botApiMethodExecutor, keyboardCreator, linkedMapOf(
         Command.RENAME to null,
         Command.EDIT_REG_EXP to null,
+        Command.EDIT_MESSAGE to null,
         Command.BACK to StateNames.CONFIGURATIONS_MENU,
         Command.MAIN_MENU to StateNames.MAIN_MENU
     )
@@ -55,9 +56,19 @@ class EditConfigurationMenu(
 
     override fun handleCommandMessage(chatId: Long, command: Command) {
         when (command) {
-            Command.RENAME -> sendConfigListMessage(chatId, CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_RENAME)
+            Command.RENAME -> sendConfigListMessage(
+                chatId,
+                CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_RENAME
+            )
+
             Command.EDIT_REG_EXP -> sendConfigListMessage(
-                chatId, CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_EDIT_REG_EXP
+                chatId,
+                CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_EDIT_REG_EXP
+            )
+
+            Command.EDIT_MESSAGE -> sendConfigListMessage(
+                chatId,
+                CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_EDIT_MESSAGE
             )
 
             else -> super.handleCommandMessage(chatId, command)
@@ -67,7 +78,8 @@ class EditConfigurationMenu(
     override fun handleCallbackQuery(chatId: Long, query: CallbackQuery) {
         val allowedCallbackTypes = setOf(
             CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_RENAME,
-            CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_EDIT_REG_EXP
+            CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_EDIT_REG_EXP,
+            CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_EDIT_MESSAGE
         )
         val callbackData = callbackUtils.parseCallbackData(query.data)
         if (!allowedCallbackTypes.contains(callbackData.callbackType)) {
@@ -80,6 +92,7 @@ class EditConfigurationMenu(
         val newStateName = when (callbackData.callbackType) {
             CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_RENAME -> StateNames.EDIT_CONFIGURATION_AWAITING_NAME
             CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_EDIT_REG_EXP -> StateNames.EDIT_CONFIGURATION_AWAITING_REG_EXP
+            CallbackType.EDIT_CONFIGURATION_MENU_CHOICE_FOR_EDIT_MESSAGE -> StateNames.EDIT_CONFIGURATION_AWAITING_MESSAGE
             else -> throw RuntimeException()
         }
         stateContext.switchState(chatId, newStateName)

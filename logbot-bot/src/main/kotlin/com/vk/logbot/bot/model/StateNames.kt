@@ -48,6 +48,11 @@ class StateNames {
         const val EDIT_CONFIGURATION_AWAITING_REG_EXP = "editConfigurationAwaitingRegExpState"
 
         /**
+         * Редактирование конфигурации (ожидание ввода сообщения уведомления о логе).
+         */
+        const val EDIT_CONFIGURATION_AWAITING_MESSAGE = "editConfigurationAwaitingMessageState"
+
+        /**
          * Меню удаления конфигурации.
          */
         const val REMOVE_CONFIGURATION_MENU = "removeConfigurationMenuState"

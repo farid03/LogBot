@@ -30,4 +30,8 @@ class ConfigDao(private val configs: ArrayList<Config> = ArrayList(), private va
     fun editRegexpInConfigById(id: Int, newRegExp: String) {
         configs.find { it.id == id }?.regExp = newRegExp
     }
+
+    fun editMessageInConfigById(id: Int, newMessage: String) {
+        configs.find { it.id == id }?.message = newMessage
+    }
 }
