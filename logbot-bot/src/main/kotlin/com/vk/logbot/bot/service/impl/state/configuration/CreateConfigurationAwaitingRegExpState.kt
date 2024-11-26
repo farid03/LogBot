@@ -9,8 +9,6 @@ import com.vk.logbot.bot.model.enm.Command
 import com.vk.logbot.bot.service.BotApiMethodExecutor
 import com.vk.logbot.bot.service.State
 import com.vk.logbot.bot.service.StateContext
-import com.vk.logbot.bot.temp.Config
-import com.vk.logbot.bot.temp.ConfigDao
 import com.vk.logbot.bot.util.FileDownloader
 import com.vk.logbot.bot.util.KeyboardCreator
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
@@ -25,7 +23,6 @@ class CreateConfigurationAwaitingRegExpState(
     botApiMethodExecutor: BotApiMethodExecutor,
     keyboardCreator: KeyboardCreator,
     private val cache: Cache<CacheKey, Any>,
-    private val configDao: ConfigDao,
     private val fileDownloader: FileDownloader
 ) : State(
     stateContext,
@@ -48,18 +45,6 @@ class CreateConfigurationAwaitingRegExpState(
             return
         }
 
-        val cachedName =
-            cache.getIfPresent(CacheKey(chatId, CacheDataType.CREATABLE_CONFIGURATION_NAME)) as String? ?: let {
-                botApiMethodExecutor.executeBotApiMethod(
-                    SendMessage(
-                        chatId.toString(),
-                        "Вы длительное время не пользовались ботом, поэтому название создаваемой конфигурации сбросилось. Начните создание конфигурации сначала"
-                    )
-                )
-                stateContext.switchState(chatId, StateNames.CREATE_CONFIGURATION_AWAITING_NAME)
-                return
-            }
-        val userId = message.from.id
         val regExp = if (message.hasDocument()) {
             val file = fileDownloader.getFile(message.document.fileId)
             file.readText()
@@ -67,17 +52,7 @@ class CreateConfigurationAwaitingRegExpState(
             message.text
         }
 
-        val config = Config(null, userId, cachedName, regExp)
-        configDao.saveConfig(config)
-
-        botApiMethodExecutor.executeBotApiMethod(
-            SendMessage(
-                chatId.toString(), "Создана новая конфигурация:\n" +
-                        "Название: \"${config.name}\"\n" +
-                        "Регулярное выражение: \"${config.regExp}\"\n" +
-                        "Вы возвращены в меню конфигураций"
-            )
-        )
-        stateContext.switchState(chatId, StateNames.CONFIGURATIONS_MENU)
+        cache.put(CacheKey(chatId, CacheDataType.CREATABLE_CONFIGURATION_REG_EXP), regExp)
+        stateContext.switchState(chatId, StateNames.CREATE_CONFIGURATION_AWAITING_MESSAGE)
     }
 }

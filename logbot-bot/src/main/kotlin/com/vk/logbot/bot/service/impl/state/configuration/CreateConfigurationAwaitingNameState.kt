@@ -19,7 +19,8 @@ import org.telegram.telegrambots.meta.api.objects.Message
 @BotState(StateNames.CREATE_CONFIGURATION_AWAITING_NAME)
 class CreateConfigurationAwaitingNameState(
     stateContext: StateContext,
-    botApiMethodExecutor: BotApiMethodExecutor, keyboardCreator: KeyboardCreator,
+    botApiMethodExecutor: BotApiMethodExecutor,
+    keyboardCreator: KeyboardCreator,
     private val cache: Cache<CacheKey, Any>
 ) : State(
     stateContext, botApiMethodExecutor, keyboardCreator, linkedMapOf(

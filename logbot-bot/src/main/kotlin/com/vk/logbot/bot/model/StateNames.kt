@@ -28,6 +28,11 @@ class StateNames {
         const val CREATE_CONFIGURATION_AWAITING_REG_EXP = "createConfigurationAwaitingRegExpState"
 
         /**
+         * Создание конфигурации (ожидание ввода сообщения уведомления о логе).
+         */
+        const val CREATE_CONFIGURATION_AWAITING_MESSAGE = "createConfigurationAwaitingMessageState"
+
+        /**
          * Меню редактирования конфигураций.
          */
         const val EDIT_CONFIGURATION_MENU = "editConfigurationMenuState"
