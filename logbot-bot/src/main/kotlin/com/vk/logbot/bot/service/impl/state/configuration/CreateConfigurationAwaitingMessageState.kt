@@ -64,6 +64,7 @@ class CreateConfigurationAwaitingMessageState(
         val userId = message.from.id
         val config = Config(null, userId, cachedName, cachedRegExp, message.text)
         configDao.saveConfig(config)
+        invalidateCaches(chatId)
 
         botApiMethodExecutor.executeBotApiMethod(
             SendMessage(
@@ -75,5 +76,10 @@ class CreateConfigurationAwaitingMessageState(
             )
         )
         stateContext.switchState(chatId, StateNames.CONFIGURATIONS_MENU)
+    }
+
+    private fun invalidateCaches(chatId: Long) {
+        cache.invalidate(CacheKey(chatId, CacheDataType.CREATABLE_CONFIGURATION_NAME))
+        cache.invalidate(CacheKey(chatId, CacheDataType.CREATABLE_CONFIGURATION_REG_EXP))
     }
 }
