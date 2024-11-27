@@ -55,7 +55,7 @@ class EditConfigurationAwaitingMessageState(
         botApiMethodExecutor.executeBotApiMethod(
             SendMessage(
                 chatId.toString(),
-                "Конфигурация переименована! Произведён возврат в меню редактирования конфигураций"
+                "Сообщение конфигурации изменено! Произведён возврат в меню редактирования конфигураций"
             )
         )
         stateContext.switchState(chatId, StateNames.EDIT_CONFIGURATION_MENU)
