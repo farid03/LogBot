@@ -30,12 +30,12 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-jpa") // раскомментить когда появится БД
     implementation("org.flywaydb:flyway-core:9.22.3")
     implementation("org.postgresql:postgresql:42.7.4")
+    implementation("io.github.microutils:kotlin-logging:3.0.5")
 
     // kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
 
     // json
-    implementation("org.modelmapper:modelmapper:3.2.1")
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
 
     // swagger

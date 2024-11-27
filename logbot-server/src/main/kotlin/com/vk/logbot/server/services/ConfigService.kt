@@ -4,45 +4,85 @@ import com.vk.logbot.commons.dto.ConfigDto
 import com.vk.logbot.server.models.Config
 import com.vk.logbot.commons.dto.CreatingConfigDto
 import com.vk.logbot.commons.dto.EditConfigDto
+import com.vk.logbot.server.exceptions.ServiceException
+import com.vk.logbot.server.exceptions.UserException
 import com.vk.logbot.server.repositories.ConfigRepository
-import org.modelmapper.ModelMapper
+import mu.KLogging
 import org.springframework.stereotype.Service
 
 @Service
 class ConfigService(private val configRepository: ConfigRepository) {
 
-    private val modelMapper: ModelMapper = ModelMapper()
+    companion object : KLogging()
 
-    fun convertConfigToDto(config: Config?): ConfigDto {
-        if (config == null) return ConfigDto(0, "name", "none")
-        return modelMapper.map(config, ConfigDto::class.java)
+    fun convertConfigToDto(config: Config): ConfigDto {
+        return ConfigDto(config.id, config.userId, config.name, config.regExp, config.message, config.active)
     }
 
     fun convertCreatingConfigDtoToConfig(creatingConfigDto: CreatingConfigDto): Config {
-        return modelMapper.map(creatingConfigDto, Config::class.java)
+        return Config(userId = creatingConfigDto.userId, name = creatingConfigDto.name, regExp = creatingConfigDto.regExp, message = creatingConfigDto.message)
     }
 
     fun getConfigsDtoByUserIdAndName(userId: Long, configName: String?): List<ConfigDto> {
-        if (configName != null) {
-            return configRepository.findConfigsByNameAndUserId(configName, userId).map { convertConfigToDto(it) }
+        try {
+            if (configName != null) {
+                return configRepository.findConfigsByNameAndUserId(configName, userId).map { convertConfigToDto(it) }
+            }
+            return configRepository.findConfigsByUserId(userId).map { convertConfigToDto(it) }
+        } catch (ex: Exception) {
+            logger.warn { ex.message }
+            throw ServiceException("Ошибка сервиса")
         }
-        return configRepository.findConfigsByUserId(userId).map { convertConfigToDto(it) }
     }
 
     fun getConfigDtoById(configId: Long): ConfigDto {
-        return convertConfigToDto(configRepository.findConfigById(configId))
+        try {
+            var config = configRepository.findConfigById(configId)
+            if (config.isPresent) {
+                return convertConfigToDto(config.get())
+            }
+            throw UserException("Конфиг не найден")
+        } catch (ex: Exception) {
+            logger.warn { ex.message }
+            throw ServiceException("Ошибка сервиса")
+        }
     }
 
     fun createConfig(creatingConfigDto: CreatingConfigDto): ConfigDto {
-        return convertConfigToDto(configRepository.save(convertCreatingConfigDtoToConfig(creatingConfigDto)))
+        try {
+            var config = configRepository.save(convertCreatingConfigDtoToConfig(creatingConfigDto))
+            return convertConfigToDto(config)
+        } catch (ex: Exception) {
+            logger.warn { ex.message }
+            throw ServiceException("Ошибка сервиса")
+        }
     }
 
     fun editConfig(editConfigDto: EditConfigDto): ConfigDto {
-        val number = configRepository.updateConfigById(editConfigDto, editConfigDto.id)
-        return convertConfigToDto(Config(1, 1,"null", "null"))
+        try {
+            var config = configRepository.findConfigById(editConfigDto.id)
+            if (config.isPresent) {
+                var value = config.get()
+                value.name = editConfigDto.name
+                value.regExp = editConfigDto.regExp
+                value.message = editConfigDto.message
+                value.active = editConfigDto.active
+                return convertConfigToDto(configRepository.save(value))
+            }
+
+            throw UserException("Конфиг не найден")
+        } catch (ex: Exception) {
+            logger.warn { ex.message }
+            throw ServiceException("Ошибка сервиса")
+        }
     }
 
     fun deleteConfig(id: Long) {
-        return configRepository.deleteById(id)
+        try {
+            configRepository.deleteById(id)
+        } catch (ex: RuntimeException) {
+            logger.warn { ex.message }
+            throw UserException("Ошибка при удалении")
+        }
     }
 }
