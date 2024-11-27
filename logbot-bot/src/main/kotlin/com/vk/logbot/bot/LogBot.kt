@@ -1,8 +1,6 @@
 package com.vk.logbot.bot
 
 import com.vk.logbot.bot.config.TelegramConfig
-import com.vk.logbot.bot.service.CallbackQueryHandler
-import com.vk.logbot.bot.service.MessageHandler
 import org.springframework.stereotype.Component
 import org.telegram.telegrambots.bots.TelegramWebhookBot
 import org.telegram.telegrambots.meta.api.methods.BotApiMethod
@@ -10,9 +8,7 @@ import org.telegram.telegrambots.meta.api.objects.Update
 
 @Component
 class LogBot(
-    val telegramConfig: TelegramConfig,
-    val callbackQueryHandler: CallbackQueryHandler,
-    val messageHandler: MessageHandler
+    val telegramConfig: TelegramConfig
 ) : TelegramWebhookBot(telegramConfig.botToken) {
 
     init {
@@ -27,10 +23,7 @@ class LogBot(
         return telegramConfig.botUsername
     }
 
-    override fun onWebhookUpdateReceived(update: Update): BotApiMethod<*> {
-        if (update.hasCallbackQuery()) {
-            return callbackQueryHandler.handle(update.callbackQuery)
-        }
-        return messageHandler.handle(update.message)
+    override fun onWebhookUpdateReceived(update: Update?): BotApiMethod<*> {
+        TODO("Метод не требуется")
     }
 }
