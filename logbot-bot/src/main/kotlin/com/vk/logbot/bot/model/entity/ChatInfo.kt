@@ -27,5 +27,5 @@ data class ChatInfo(
     /**
      * Флаг авторизации пользователя.
      */
-    @Column var isAuthorized: Boolean
+    @Column var isAuthorized: Boolean?
 )
