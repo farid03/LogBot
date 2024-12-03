@@ -25,6 +25,5 @@ cache:
 
 bot:
   api-url: https://api.telegram.org
-  webhook-path: webhook_path
-  username: DWS_VK_LogBot
-  token: bot_token
+  host-url: host-url
+  token: token

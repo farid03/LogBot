@@ -22,8 +22,7 @@
 Для запуска бота необходимо определить следующие переменные (указаны
 в [application.yaml](src/main/resources/application.yaml)):
 
-* bot.webhook-path - URL хоста бота. Необходим Telegram для отправки боту новых сообщений
-* bot.username - юзернейм бота, выданный [@BotFather](https://t.me/BotFather)
+* bot.host-url - URL хоста бота. Необходим Telegram для отправки боту новых сообщений
 * bot.token - токен бота, выданный [@BotFather](https://t.me/BotFather)
 
 ## Запуск
@@ -36,7 +35,7 @@
 
 1. Запустить приложение Ngrok
 2. Запустить Ngrok командой `ngrok http <port>`, в качестве значения `port` необходимо использовать порт приложения бота
-3. Скопировать сгенерированную ссылку из Forwarding и вставить её как значение в `webhook-path`
+3. Скопировать сгенерированную ссылку из Forwarding и вставить её как значение в `host-url`
 4. Запустить приложение бота
 
 ## Запуск без PostgreSQL

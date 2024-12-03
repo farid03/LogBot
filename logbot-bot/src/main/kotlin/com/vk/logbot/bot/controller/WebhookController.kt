@@ -13,13 +13,13 @@ import org.telegram.telegrambots.meta.api.objects.Update
  */
 @RestController
 class WebhookController(
-    val stateContext: StateContext
+    private val stateContext: StateContext
 ) {
 
     /**
      * Получает обновление чата от Telegram.
      */
-    @PostMapping("/callback/update")
+    @PostMapping("/callback/update/\${bot.token}")
     fun onWebhookUpdateReceived(@RequestBody update: Update): BotApiMethod<*> {
         stateContext.handleUpdate(update)
 
