@@ -25,5 +25,6 @@ cache:
 
 bot:
   api-url: https://api.telegram.org
-  host-url: host-url
-  token: token
+  host-url:
+  token:
+  cert-path:
