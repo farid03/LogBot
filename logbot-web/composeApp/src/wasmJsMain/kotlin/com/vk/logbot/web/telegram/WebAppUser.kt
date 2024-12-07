@@ -3,5 +3,5 @@ package com.vk.logbot.web.telegram
 external class WebAppUser {
 
     @JsName("id")
-    val id: Int
+    val id: Long
 }
