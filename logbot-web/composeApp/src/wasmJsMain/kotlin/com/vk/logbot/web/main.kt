@@ -9,6 +9,7 @@ import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import com.vk.logbot.web.di.mainModule
 import com.vk.logbot.web.navigation.RootComponent
+import com.vk.logbot.web.telegram.webApp
 import kotlinx.browser.document
 import org.koin.core.annotation.KoinInternalApi
 import org.koin.core.context.startKoin
@@ -35,4 +36,6 @@ fun main() {
     ComposeViewport(document.body!!) {
         MaterialTheme { root.Render() }
     }
+
+    webApp.initDataUnsafe.user?.id //так можно получить userId
 }
