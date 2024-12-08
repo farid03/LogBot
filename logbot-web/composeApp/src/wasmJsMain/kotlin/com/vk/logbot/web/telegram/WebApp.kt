@@ -1,16 +1,17 @@
 package com.vk.logbot.web.telegram
 
-val webApp: WebApp by lazy { WebApp(js("window.Telegram.WebApp")) }
+@JsName("Telegram")
+private external val telegram: Telegram
 
-class WebApp internal constructor(
-    private val jsDelegate: WebAppJs
-) {
-    val initDataUnsafe: WebAppInitData get() = jsDelegate.initDataUnsafe
+private external interface Telegram {
+    @JsName("webApp")
+    val webApp: WebApp
 }
 
-internal external class WebAppJs {
-
+external class WebApp {
     //https://core.telegram.org/bots/webapps#initializing-mini-apps
     @JsName("initDataUnsafe")
     val initDataUnsafe: WebAppInitData
 }
+
+val webApp = telegram.webApp
