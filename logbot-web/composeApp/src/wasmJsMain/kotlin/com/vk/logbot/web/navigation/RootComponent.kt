@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 class RootComponent(
     componentContext: ComponentContext,
     private val navigationOptions: ScreenConfig?,
+    private val userInfo: UserInfo,
 ) : IRootComponent, ComponentContext by componentContext {
 
 
@@ -111,9 +112,7 @@ class RootComponent(
                         componentContext = componentContext,
                         navigateMain = {
                             navigation.replaceCurrent(
-                                ScreenConfig.Main(
-                                    UserInfo(1L, "1")
-                                )
+                                ScreenConfig.Main(userInfo)
                             )
                         })
                 )
@@ -123,6 +122,7 @@ class RootComponent(
                 MainChild(
                     MainComponent(
                         componentContext = componentContext,
+                        userInfo=userInfo,
                         navigateConfigFiles = {
                             navigation.bringToFront(
                                 ScreenConfig.ListConfigFiles(userInfo = config.userInfo)

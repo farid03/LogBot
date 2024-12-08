@@ -12,8 +12,8 @@ class MainReducer : Reducer<MainAction, MainState> {
         state: MainState
     ): MainState {
         return when (action) {
-            is MainAction.OnLoad ->
-                state.copy(isLoading = action.isLoad)
+            is MainAction.SetUser ->
+                state.copy(user = action.user)
         }
     }
 }

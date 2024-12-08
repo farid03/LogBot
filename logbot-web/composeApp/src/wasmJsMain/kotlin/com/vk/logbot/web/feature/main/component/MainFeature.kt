@@ -14,7 +14,7 @@ class MainFeature() : BaseFeature<MainState, MainIntent, MainAction, MainReducer
 
     override fun handleIntent(intent: MainIntent) {
         when (intent) {
-            is MainIntent.OnLoad -> onAction(MainAction.OnLoad(intent.isLoad))
+            is MainIntent.SetUser -> onAction(MainAction.SetUser(intent.user))
         }
     }
 }

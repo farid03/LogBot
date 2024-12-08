@@ -4,14 +4,17 @@ import androidx.compose.runtime.Composable
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.value.Value
+import com.vk.logbot.web.feature.main.component.contract.MainIntent
 import com.vk.logbot.web.feature.main.component.contract.MainNavigation
 import com.vk.logbot.web.feature.main.component.contract.MainState
 import com.vk.logbot.web.feature.main.ui.MainScreen
+import com.vk.logbot.web.model.UserInfo
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
 class MainComponent(
     componentContext: ComponentContext,
+    userInfo: UserInfo,
     navigateConfigFiles: () -> Unit,
     navigateCreateConfigFile: () -> Unit,
 ) : IMainComponent, ComponentContext by componentContext {
@@ -25,6 +28,11 @@ class MainComponent(
             }
         }.launchIn(coroutineScope)
     }
+
+    init {
+        feature.onIntent(MainIntent.SetUser(userInfo))
+    }
+
     override val state: Value<MainState> = feature.state
     override fun navigateToConfigFiles() {
         feature.onNavigation(MainNavigation.ShowConfigFiles)

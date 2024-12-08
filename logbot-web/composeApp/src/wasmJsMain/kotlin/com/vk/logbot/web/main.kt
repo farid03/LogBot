@@ -7,6 +7,7 @@ import com.arkivanov.decompose.DefaultComponentContext
 import com.arkivanov.essenty.lifecycle.LifecycleRegistry
 import com.arkivanov.essenty.lifecycle.resume
 import com.vk.logbot.web.di.mainModule
+import com.vk.logbot.web.model.UserInfo
 import com.vk.logbot.web.navigation.RootComponent
 import com.vk.logbot.web.telegram.webApp
 import kotlinx.browser.document
@@ -30,9 +31,14 @@ fun main() {
     lifecycle.resume()
     println("debug end init ")
     println("debug root")
-    val root = RootComponent(DefaultComponentContext(lifecycle), null)
+    val root = RootComponent(
+        DefaultComponentContext(lifecycle), userInfo =
+        UserInfo(
+            telegramId = webApp.initDataUnsafe.user?.id ?: -1,
+            idCompany = ""
+        ), navigationOptions = null
+    )
     ComposeViewport(document.body!!) {
         MaterialTheme { root.Render() }
     }
-    webApp.initDataUnsafe.user?.id //так можно получить userId
 }

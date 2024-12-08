@@ -23,6 +23,7 @@ kotlin {
                         add(rootDirPath)
                         add(projectDirPath)
                     }
+                    port = 8082
                 }
             }
         }
