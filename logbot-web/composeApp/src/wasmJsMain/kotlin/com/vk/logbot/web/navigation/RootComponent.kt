@@ -1,7 +1,6 @@
 package com.vk.logbot.web.navigation
 
 import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.core.AnimationEndReason
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material3.Icon
@@ -9,7 +8,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.stack.Children

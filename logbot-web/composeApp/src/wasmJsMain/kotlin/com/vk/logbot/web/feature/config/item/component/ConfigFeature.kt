@@ -5,7 +5,6 @@ import com.vk.logbot.web.feature.config.item.component.contract.ConfigAction
 import com.vk.logbot.web.feature.config.item.component.contract.ConfigIntent
 import com.vk.logbot.web.feature.config.item.component.contract.ConfigState
 import com.vk.logbot.web.model.ConfigFile
-import org.koin.core.KoinApplication.Companion.init
 
 class ConfigFeature() :
     BaseFeature<ConfigState, ConfigIntent, ConfigAction, ConfigReducer>() {

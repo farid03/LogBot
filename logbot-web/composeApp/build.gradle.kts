@@ -49,7 +49,5 @@ kotlin {
                 implementation(libs.coroutines.core)
             }
         }
-
     }
 }
-
