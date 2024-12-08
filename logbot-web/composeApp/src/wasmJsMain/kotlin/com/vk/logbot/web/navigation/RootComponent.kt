@@ -1,27 +1,33 @@
 package com.vk.logbot.web.navigation
 
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.animation.AnimatedVisibility
+import androidx.compose.animation.core.AnimationEndReason
+import androidx.compose.foundation.layout.*
+import androidx.compose.material.icons.Icons
+import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.rotate
+import androidx.compose.ui.graphics.Color
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.stack.Children
 import com.arkivanov.decompose.extensions.compose.stack.animation.fade
 import com.arkivanov.decompose.extensions.compose.stack.animation.stackAnimation
-import com.arkivanov.decompose.router.stack.ChildStack
-import com.arkivanov.decompose.router.stack.StackNavigation
-import com.arkivanov.decompose.router.stack.childStack
-import com.arkivanov.decompose.router.stack.pop
-import com.arkivanov.decompose.router.stack.replaceAll
-import com.arkivanov.decompose.router.stack.replaceCurrent
+import com.arkivanov.decompose.router.stack.*
 import com.arkivanov.decompose.value.Value
-import com.vk.logbot.web.feature.main.MainComponent
-import com.vk.logbot.web.feature.splash.SplashComponent
+import com.vk.logbot.web.feature.config.item.component.ConfigComponent
+import com.vk.logbot.web.feature.config.list.component.ListConfigComponent
+import com.vk.logbot.web.feature.main.component.MainComponent
+import com.vk.logbot.web.feature.splash.component.SplashComponent
+import com.vk.logbot.web.model.ConfigFile
 import com.vk.logbot.web.model.UserInfo
 import com.vk.logbot.web.navigation.IRootComponent.Child.*
 import kotlinx.serialization.Serializable
-
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.ui.Alignment
+import androidx.compose.ui.unit.dp
 
 class RootComponent(
     componentContext: ComponentContext,
@@ -33,7 +39,7 @@ class RootComponent(
 
     private val navigation = StackNavigation<ScreenConfig>()
 
-    override val childStack: Value<ChildStack<*, IRootComponent.Child>> = childStack(
+    override val childStack: Value<ChildStack<ScreenConfig, IRootComponent.Child>> = childStack(
         source = navigation,
         serializer = ScreenConfig.serializer(),
         handleBackButton = true,
@@ -48,21 +54,35 @@ class RootComponent(
 
     @Composable
     override fun Render() {
-        println("debug root render")
         CompositionLocalProvider {
             Children(
                 stack = this.childStack,
                 modifier = Modifier.fillMaxSize(),
                 animation = stackAnimation(fade())
             ) {
-                Box(modifier = Modifier.fillMaxSize()) {
-                    when (val child = it.instance) {
-                        is SplashChild ->
-                            child.component.Render()
 
-                        is MainChild -> {
-                            child.component.Render()
+                Box(modifier = Modifier.fillMaxSize()) {
+                    Column(
+                        modifier = Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.Start,
+                        verticalArrangement = Arrangement.spacedBy(20.dp)
+                    ) {
+                        AnimatedVisibility(
+                            it.instance.component !is SplashComponent &&
+                                    it.instance.component !is MainComponent
+                        ) {
+                            IconButton(onClick = {
+                                navigation.pop()
+                            }) {
+                                Icon(
+                                    imageVector = Icons.AutoMirrored.Filled.ArrowBack,
+                                    contentDescription = "home",
+                                    modifier = Modifier.size(40.dp),
+                                    tint = Color.Black
+                                )
+                            }
                         }
+                        it.instance.component.Render()
                     }
                 }
             }
@@ -93,7 +113,9 @@ class RootComponent(
                         componentContext = componentContext,
                         navigateMain = {
                             navigation.replaceCurrent(
-                                ScreenConfig.Main(UserInfo(1L, "1"))
+                                ScreenConfig.Main(
+                                    UserInfo(1L, "1")
+                                )
                             )
                         })
                 )
@@ -101,9 +123,51 @@ class RootComponent(
 
             is ScreenConfig.Main -> {
                 MainChild(
-                    MainComponent(componentContext, {})
+                    MainComponent(
+                        componentContext = componentContext,
+                        navigateConfigFiles = {
+                            navigation.bringToFront(
+                                ScreenConfig.ListConfigFiles(userInfo = config.userInfo)
+                            )
+                        },
+                        navigateCreateConfigFile = {
+                            navigation.bringToFront(
+                                ScreenConfig.Config(
+                                    userInfo = config.userInfo,
+                                    configFile = null
+                                )
+                            )
+                        })
                 )
             }
+
+            is ScreenConfig.Config -> {
+                ConfigFilesChild(
+                    ConfigComponent(
+                        componentContext = componentContext,
+                        userInfo = config.userInfo,
+                        configFile = config.configFile,
+                        navigateToMainScreen = {},
+                        backToPreviousScreen = { navigation.pop() }
+                    )
+                )
+            }
+
+            is ScreenConfig.ListConfigFiles -> ListConfigFilesChild(
+                ListConfigComponent(
+                    componentContext = componentContext,
+                    userInfo = config.userInfo,
+                    navigateBack = { navigation.pop() },
+                    navigateToConfigFile = {
+                        navigation.bringToFront(
+                            ScreenConfig.Config(
+                                userInfo = config.userInfo,
+                                configFile = it
+                            )
+                        )
+                    }
+                )
+            )
         }
 
 
@@ -116,6 +180,16 @@ class RootComponent(
 
         @Serializable
         data class Main(val userInfo: UserInfo) : ScreenConfig()
+
+
+        @Serializable
+        data class Config(
+            val userInfo: UserInfo,
+            val configFile: ConfigFile? = null,
+        ) : ScreenConfig()
+
+        @Serializable
+        data class ListConfigFiles(val userInfo: UserInfo) : ScreenConfig()
 
     }
 }

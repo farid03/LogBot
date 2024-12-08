@@ -1,9 +1,9 @@
-package com.vk.logbot.web.feature.main
+package com.vk.logbot.web.feature.main.component
 
 import com.vk.logbot.web.core.mvi.component.BaseFeature
-import com.vk.logbot.web.feature.main.contract.MainAction
-import com.vk.logbot.web.feature.main.contract.MainIntent
-import com.vk.logbot.web.feature.main.contract.MainState
+import com.vk.logbot.web.feature.main.component.contract.MainAction
+import com.vk.logbot.web.feature.main.component.contract.MainIntent
+import com.vk.logbot.web.feature.main.component.contract.MainState
 import org.koin.core.component.KoinComponent
 import org.koin.core.component.inject
 

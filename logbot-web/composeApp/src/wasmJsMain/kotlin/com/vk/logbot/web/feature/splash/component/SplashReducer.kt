@@ -1,8 +1,8 @@
-package com.vk.logbot.web.feature.splash
+package com.vk.logbot.web.feature.splash.component
 
 import com.vk.logbot.web.core.mvi.component.Reducer
-import com.vk.logbot.web.feature.splash.contract.SplashAction
-import com.vk.logbot.web.feature.splash.contract.SplashState
+import com.vk.logbot.web.feature.splash.component.contract.SplashAction
+import com.vk.logbot.web.feature.splash.component.contract.SplashState
 import org.koin.core.annotation.Single
 
 @Single

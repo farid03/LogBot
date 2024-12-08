@@ -1,22 +1,16 @@
-package com.vk.logbot.web.feature.splash
+package com.vk.logbot.web.feature.splash.component
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.foundation.layout.Box
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.shape.CircleShape
-import androidx.compose.material.CircularProgressIndicator
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
-import androidx.compose.ui.Alignment
-import androidx.compose.ui.Modifier
 import com.arkivanov.decompose.ComponentContext
 import com.arkivanov.decompose.extensions.compose.subscribeAsState
 import com.arkivanov.decompose.value.Value
-import com.vk.logbot.web.feature.splash.contract.SplashIntent
-import com.vk.logbot.web.feature.splash.contract.SplashNavigation
-import com.vk.logbot.web.feature.splash.contract.SplashState
-import kotlinx.coroutines.coroutineScope
+import com.vk.logbot.web.feature.splash.component.contract.SplashIntent
+import com.vk.logbot.web.feature.splash.component.contract.SplashNavigation
+import com.vk.logbot.web.feature.splash.component.contract.SplashState
+import com.vk.logbot.web.feature.splash.ui.SplashScreen
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.launch
 
@@ -31,7 +25,7 @@ class SplashComponent(
             when (it) {
                 is SplashNavigation.ShowMain -> navigateToMain()
             }
-        }
+        }.launchIn(coroutineScope)
     }
     override val state: Value<SplashState> = feature.state
     override fun navigateToMain() = navigateMain()
@@ -39,8 +33,8 @@ class SplashComponent(
 
     private fun fakeload() {
         coroutineScope.launch {
-            delay(1000)
-            feature.onIntent(SplashIntent.OnLoad(true))
+            delay(2000)
+            feature.onIntent(SplashIntent.OnLoad(false))
         }
     }
 
@@ -48,14 +42,7 @@ class SplashComponent(
     override fun Render() {
         val state = state.subscribeAsState().value
         LaunchedEffect(Unit) { fakeload() }
-        Box(modifier = Modifier.fillMaxSize(),
-            contentAlignment = Alignment.Center) {
-            AnimatedVisibility(
-                state.isLoading
-            ) {
-                CircularProgressIndicator()
-            }
-        }
+        SplashScreen(state)
     }
 
 }

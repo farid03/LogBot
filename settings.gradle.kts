@@ -6,5 +6,5 @@ include(
     "logbot-server",
     "logbot-bot",
     "logbot-web",
-    "logbot-web:composeApp"
+    "logbot-web:composeApp",
 )

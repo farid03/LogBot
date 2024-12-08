@@ -67,6 +67,5 @@ abstract class BaseFeature<S : MviState, I : MviIntent, A : MviAction, R : Reduc
         lifecycleScope.cancel()
     }
 
-
 }
 
