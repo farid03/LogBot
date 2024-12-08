@@ -31,12 +31,16 @@ fun main() {
     lifecycle.resume()
     println("debug end init ")
     println("debug root")
+    val user = run {
+        try {
+            webApp.initDataUnsafe.user
+        } catch (e: Exception) {
+            null
+        }
+    }
     val root = RootComponent(
-        DefaultComponentContext(lifecycle), userInfo =
-        UserInfo(
-            telegramId = webApp.initDataUnsafe.user?.id ?: -1,
-            idCompany = ""
-        ), navigationOptions = null
+        DefaultComponentContext(lifecycle), userInfo = user
+       , navigationOptions = null
     )
     ComposeViewport(document.body!!) {
         MaterialTheme { root.Render() }

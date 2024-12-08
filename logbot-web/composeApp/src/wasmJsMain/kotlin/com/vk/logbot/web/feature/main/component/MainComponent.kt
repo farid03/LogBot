@@ -14,7 +14,7 @@ import kotlinx.coroutines.flow.onEach
 
 class MainComponent(
     componentContext: ComponentContext,
-    userInfo: UserInfo,
+    userInfo: UserInfo?,
     navigateConfigFiles: () -> Unit,
     navigateCreateConfigFile: () -> Unit,
 ) : IMainComponent, ComponentContext by componentContext {

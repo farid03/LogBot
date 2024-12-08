@@ -7,6 +7,7 @@ import com.vk.logbot.web.core.mvi.component.BaseComponent
 import com.vk.logbot.web.feature.config.item.component.IConfigComponent
 import com.vk.logbot.web.feature.config.list.component.IListConfigComponent
 import com.vk.logbot.web.feature.main.component.IMainComponent
+import com.vk.logbot.web.feature.not_tg.component.INotTgComponent
 import com.vk.logbot.web.feature.splash.component.ISplashComponent
 import kotlinx.serialization.Serializable
 
@@ -19,10 +20,11 @@ interface IRootComponent {
 
     @Serializable
     sealed class Child {
-        class SplashChild(override val component: ISplashComponent) : Child()
-        class MainChild(override val component: IMainComponent) : Child()
-        class ConfigFilesChild(override val component: IConfigComponent) : Child()
-        class ListConfigFilesChild(override val component: IListConfigComponent) : Child()
+        data class SplashChild(override val component: ISplashComponent) : Child()
+        data class MainChild(override val component: IMainComponent) : Child()
+        data class ConfigFilesChild(override val component: IConfigComponent) : Child()
+        data class ListConfigFilesChild(override val component: IListConfigComponent) : Child()
+        data class NotTgChild(override val component: INotTgComponent) : Child()
         abstract val component: BaseComponent<*>
     }
 }

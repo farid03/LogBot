@@ -26,11 +26,14 @@ import kotlinx.serialization.Serializable
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.unit.dp
+import com.vk.logbot.web.feature.not_tg.component.NotTgComponent
+import com.vk.logbot.web.telegram.WebAppUser
+import com.vk.logbot.web.telegram.toUser
 
 class RootComponent(
     componentContext: ComponentContext,
     private val navigationOptions: ScreenConfig?,
-    private val userInfo: UserInfo,
+    private val userInfo: WebAppUser?,
 ) : IRootComponent, ComponentContext by componentContext {
 
 
@@ -68,6 +71,7 @@ class RootComponent(
                     ) {
                         AnimatedVisibility(
                             it.instance.component !is SplashComponent &&
+                                    it.instance.component !is NotTgComponent &&
                                     it.instance.component !is MainComponent
                         ) {
                             IconButton(onClick = {
@@ -111,9 +115,16 @@ class RootComponent(
                     SplashComponent(
                         componentContext = componentContext,
                         navigateMain = {
-                            navigation.replaceCurrent(
-                                ScreenConfig.Main(userInfo)
-                            )
+                            if (userInfo != null) {
+                                navigation.replaceCurrent(
+                                    ScreenConfig.Main(userInfo.toUser())
+                                )
+                            } else {
+                                navigation.replaceCurrent(
+                                    ScreenConfig.NotTg
+                                )
+                            }
+
                         })
                 )
             }
@@ -122,7 +133,7 @@ class RootComponent(
                 MainChild(
                     MainComponent(
                         componentContext = componentContext,
-                        userInfo=userInfo,
+                        userInfo = userInfo?.toUser(),
                         navigateConfigFiles = {
                             navigation.bringToFront(
                                 ScreenConfig.ListConfigFiles(userInfo = config.userInfo)
@@ -166,6 +177,10 @@ class RootComponent(
                     }
                 )
             )
+
+            ScreenConfig.NotTg -> NotTgChild(
+                NotTgComponent(componentContext = componentContext)
+            )
         }
 
 
@@ -173,6 +188,9 @@ class RootComponent(
 
     @Serializable
     sealed class ScreenConfig {
+        @Serializable
+        data object NotTg : ScreenConfig()
+
         @Serializable
         data object Splash : ScreenConfig()
 
