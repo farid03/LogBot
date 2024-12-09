@@ -1,10 +1,15 @@
 package com.vk.logbot.web.telegram
 
-@JsName("Telegram")
-private external val telegram: Telegram
+@JsName("window")
+external val window: Window
 
-private external interface Telegram {
-    @JsName("webApp")
+external class Window {
+    @JsName("Telegram")
+    val telegram: Telegram
+}
+
+external class Telegram {
+    @JsName("WebApp")
     val webApp: WebApp
 }
 
@@ -14,4 +19,4 @@ external class WebApp {
     val initDataUnsafe: WebAppInitData
 }
 
-val webApp = telegram.webApp
+val webApp = window.telegram.webApp
