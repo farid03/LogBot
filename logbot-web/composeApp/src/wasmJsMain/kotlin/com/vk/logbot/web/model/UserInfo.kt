@@ -4,6 +4,6 @@ import kotlinx.serialization.Serializable
 
 @Serializable
 data class UserInfo(
-    val telegramId: Long,
+    val telegramId: Int,
     val idCompany: String
 )

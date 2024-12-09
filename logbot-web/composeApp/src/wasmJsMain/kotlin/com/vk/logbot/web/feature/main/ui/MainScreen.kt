@@ -22,7 +22,7 @@ fun MainScreen(
         horizontalAlignment = Alignment.CenterHorizontally,
         verticalArrangement = Arrangement.SpaceEvenly
     ) {
-        if (state.user?.telegramId != null && state.user.telegramId != -1L)
+        if (state.user?.telegramId != null && state.user.telegramId != -1)
             Text("User ID ${state.user.telegramId}")
         else {
             Text("Кто ты воин?")

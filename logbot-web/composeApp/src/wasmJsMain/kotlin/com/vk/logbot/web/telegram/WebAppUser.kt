@@ -5,7 +5,7 @@ import com.vk.logbot.web.model.UserInfo
 external class WebAppUser {
 
     @JsName("id")
-    val id: Long
+    val id: Int
 }
 
 fun WebAppUser.toUser() = UserInfo(
