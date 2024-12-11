@@ -6,7 +6,7 @@ import jakarta.persistence.Id
 import jakarta.persistence.Table
 
 @Entity
-@Table(name = "auth_sessionы")
+@Table(name = "auth_sessions")
 data class AuthSession(
     @Id
     @Column(name = "telegram_id")
