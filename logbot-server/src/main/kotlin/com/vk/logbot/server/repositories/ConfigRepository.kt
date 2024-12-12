@@ -13,4 +13,6 @@ interface ConfigRepository : JpaRepository<Config, Long> {
     fun findConfigsByUserId(userId: Long): List<Config>
 
     fun findConfigById(id: Long): Optional<Config?>
+
+    fun findConfigsByActive(active: Boolean): List<Config>
 }
