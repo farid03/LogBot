@@ -1,8 +1,6 @@
 package com.vk.logbot.bot.controller
 
-import com.vk.logbot.bot.LogBot
-import com.vk.logbot.bot.exception.BotException
-import org.springframework.web.bind.annotation.ExceptionHandler
+import com.vk.logbot.bot.service.StateContext
 import org.springframework.web.bind.annotation.PostMapping
 import org.springframework.web.bind.annotation.RequestBody
 import org.springframework.web.bind.annotation.RestController
@@ -10,16 +8,23 @@ import org.telegram.telegrambots.meta.api.methods.BotApiMethod
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Update
 
+/**
+ * REST-контроллер для получения обновлений в чатах.
+ */
 @RestController
-class WebhookController(val logBot: LogBot) {
+class WebhookController(
+    val stateContext: StateContext
+) {
 
+    /**
+     * Получает обновление чата от Telegram.
+     */
     @PostMapping("/callback/update")
     fun onWebhookUpdateReceived(@RequestBody update: Update): BotApiMethod<*> {
-        return logBot.onWebhookUpdateReceived(update)
-    }
+        stateContext.handleUpdate(update)
 
-    @ExceptionHandler(BotException::class)
-    fun handleBotException(e: BotException): BotApiMethod<*> {
-        return SendMessage(e.chatId, e.publicMessage)
+        //отправляем пустышку, чтобы Telegram понял, что мы успешно обработали запрос
+        //нормальные сообщения будут отправляться при обработке состояний через botApiMethodExecutor
+        return SendMessage()
     }
 }

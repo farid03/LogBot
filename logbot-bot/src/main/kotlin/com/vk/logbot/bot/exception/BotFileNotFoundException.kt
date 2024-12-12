@@ -1,5 +1,9 @@
 package com.vk.logbot.bot.exception
 
-class BotFileNotFoundException(fileId: String, chatId: String) : BotException(
-    "Файл с id \"$fileId\" не найден", "Файл не найден", chatId
+/**
+ * Исключение, сигнализирующее о том, что в Telegram не нашлось файла с заданным идентификатором.
+ */
+class BotFileNotFoundException(fileId: String) : BotException(
+    internalMessage = "Файл с id \"$fileId\" не найден",
+    publicMessage = "Файл не найден"
 )
