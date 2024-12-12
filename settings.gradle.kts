@@ -4,5 +4,6 @@ include(
     "logbot-commons",
     "logbot-server-rest-client",
     "logbot-server",
-    "logbot-bot"
+    "logbot-bot",
+    "logbot-log-generator"
 )
