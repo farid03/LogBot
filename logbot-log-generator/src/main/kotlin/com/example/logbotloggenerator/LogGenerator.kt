@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service
 @Service
 class LogGenerator(private val kafkaTemplate: KafkaTemplate<String, String>) {
 
-    private val TOPIC = "messages"
+    private val TOPIC = "ser-messages"
 
     private fun sendMessage(message:String) {
         kafkaTemplate.send(TOPIC, message)

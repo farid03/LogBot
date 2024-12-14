@@ -1,0 +1,29 @@
+version: '3'
+services:
+  zookeeper:
+    image: zookeeper:3.7
+    environment:
+      ZOOKEEPER_CLIENT_PORT: 2181
+    ports:
+      - "2181:2181"
+
+  kafka:
+    image: wurstmeister/kafka:latest
+    environment:
+      KAFKA_ZOOKEEPER_CONNECT: zookeeper:2181
+      KAFKA_ADVERTISED_LISTENERS: INSIDE://localhost:9093
+      KAFKA_LISTENER_SECURITY_PROTOCOL: PLAINTEXT
+      KAFKA_LISTENERS: INSIDE://0.0.0.0:9093
+      KAFKA_LISTENER_NAMES: INSIDE
+      KAFKA_LISTENER_IO_THREADS: 1
+      KAFKA_LISTENER_SECURITY_PROTOCOL_MAP: INSIDE:PLAINTEXT
+      KAFKA_LISTENER_PORTS: 9093
+      KAFKA_LISTENER_NAME_INSIDE_HOSTNAME: kafka
+      KAFKA_LISTENER_NAME_INSIDE_ADVERTISED_PORT: 9093
+      KAFKA_LISTENER_NAME_INSIDE_LISTENER: INSIDE
+      KAFKA_BROKER_ID: 1
+      KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+    ports:
+      - "9093:9093"
+    depends_on:
+      - zookeeper
