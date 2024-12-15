@@ -23,6 +23,7 @@ services:
       KAFKA_LISTENER_NAME_INSIDE_LISTENER: INSIDE
       KAFKA_BROKER_ID: 1
       KAFKA_INTER_BROKER_LISTENER_NAME: INSIDE
+      KAFKA_CREATE_TOPICS: "ser-messages:1:1,bot-messages:1:1"
     ports:
       - "9093:9093"
     depends_on:
