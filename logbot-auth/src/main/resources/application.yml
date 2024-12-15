@@ -1,0 +1,15 @@
+spring:
+  application:
+    name: logbot-auth
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    driverClassName: org.postgresql.Driver
+    username: postgres
+    password: user
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+
+logbot:
+  auth:
+    code: vkontakte
