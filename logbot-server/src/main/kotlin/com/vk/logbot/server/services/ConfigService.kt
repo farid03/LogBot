@@ -85,4 +85,7 @@ class ConfigService(private val configRepository: ConfigRepository) {
             throw UserException("Ошибка при удалении")
         }
     }
+
+    fun getActiveConfigs(): List<Config> =
+        configRepository.findConfigsByActive(true)
 }
