@@ -28,13 +28,11 @@ class FilterService(
 
     fun filter(message: String) {
         val configs = configService.getActiveConfigs();
-        println(configs)
         for (config in configs) {
             val regexp = config.regExp.toRegex()
             if (regexp.matches(message)) {
                 sendMessage(BotMessage(config.userId, config.message))
             }
-            logger.error { "Не подошло: $regexp" }
         }
     }
 }

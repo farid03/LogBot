@@ -12,6 +12,11 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("/configs")
 class ConfigController(private val configService: ConfigService) {
 
+    @GetMapping("/helloworld")
+    fun getHelloWorld(): ResponseEntity<String> {
+        return ResponseEntity.ok("Hello World")
+    }
+
     @GetMapping("/{id}")
     fun getConfigDtoById(@PathVariable("id") id: Long): ResponseEntity<ConfigDto> {
         try {

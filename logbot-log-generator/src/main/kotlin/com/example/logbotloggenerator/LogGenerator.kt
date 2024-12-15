@@ -9,7 +9,8 @@ class LogGenerator(private val kafkaTemplate: KafkaTemplate<String, String>) {
 
     private val TOPIC = "ser-messages"
 
-    private fun sendMessage(message:String) {
+    private fun sendMessage(message: String) {
+        println("Sending message: $message")
         kafkaTemplate.send(TOPIC, message)
     }
 
