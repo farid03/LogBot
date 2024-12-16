@@ -6,12 +6,12 @@ plugins {
     kotlin("plugin.jpa") version "1.9.25"
 }
 
-group = "org.itmo"
-version = "0.0.1-SNAPSHOT"
+group = "com.vk.logbot"
+version = "0.0.1"
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+kotlin {
+    jvmToolchain {
+        languageVersion.set(JavaLanguageVersion.of(17))
     }
 }
 
