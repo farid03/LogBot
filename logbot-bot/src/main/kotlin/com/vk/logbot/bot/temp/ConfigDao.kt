@@ -34,4 +34,12 @@ class ConfigDao(private val configs: ArrayList<Config> = ArrayList(), private va
     fun editMessageInConfigById(id: Int, newMessage: String) {
         configs.find { it.id == id }?.message = newMessage
     }
+
+    fun getConfigById(id: Int): Config? {
+        return configs.find { it.id == id }
+    }
+
+    fun setActive(id: Int, active: Boolean) {
+        configs.find { it.id == id }?.active = active
+    }
 }

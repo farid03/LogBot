@@ -62,7 +62,7 @@ class CreateConfigurationAwaitingMessageState(
         }
 
         val userId = message.from.id
-        val config = Config(null, userId, cachedName, cachedRegExp, message.text)
+        val config = Config(null, userId, cachedName, cachedRegExp, message.text, false)
         configDao.saveConfig(config)
         invalidateCaches(chatId)
 
