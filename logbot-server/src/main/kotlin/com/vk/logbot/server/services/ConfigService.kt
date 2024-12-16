@@ -20,7 +20,12 @@ class ConfigService(private val configRepository: ConfigRepository) {
     }
 
     fun convertCreatingConfigDtoToConfig(creatingConfigDto: CreatingConfigDto): Config {
-        return Config(userId = creatingConfigDto.userId, name = creatingConfigDto.name, regExp = creatingConfigDto.regExp, message = creatingConfigDto.message)
+        return Config(
+            userId = creatingConfigDto.userId,
+            name = creatingConfigDto.name,
+            regExp = creatingConfigDto.regExp,
+            message = creatingConfigDto.message
+        )
     }
 
     fun getConfigsDtoByUserIdAndName(userId: Long, configName: String?): List<ConfigDto> {
@@ -37,10 +42,8 @@ class ConfigService(private val configRepository: ConfigRepository) {
 
     fun getConfigDtoById(configId: Long): ConfigDto {
         try {
-            var config = configRepository.findConfigById(configId)
-            if (config.isPresent) {
-                return convertConfigToDto(config.get())
-            }
+            val config = configRepository.findConfigById(configId)
+            config?.let { return convertConfigToDto(it) }
             throw UserException("Конфиг не найден")
         } catch (ex: Exception) {
             logger.warn { ex.message }
@@ -61,15 +64,14 @@ class ConfigService(private val configRepository: ConfigRepository) {
     fun editConfig(editConfigDto: EditConfigDto): ConfigDto {
         try {
             var config = configRepository.findConfigById(editConfigDto.id)
-            if (config.isPresent) {
-                var value = config.get()
+            config?.let {
+                var value = it
                 value.name = editConfigDto.name
                 value.regExp = editConfigDto.regExp
                 value.message = editConfigDto.message
                 value.active = editConfigDto.active
                 return convertConfigToDto(configRepository.save(value))
             }
-
             throw UserException("Конфиг не найден")
         } catch (ex: Exception) {
             logger.warn { ex.message }

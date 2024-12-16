@@ -21,7 +21,7 @@ class ConfigController(private val configService: ConfigService) {
     fun getConfigDtoById(@PathVariable("id") id: Long): ResponseEntity<ConfigDto> {
         try {
             return ResponseEntity.ok(configService.getConfigDtoById(id))
-        } catch (ex:Exception){
+        } catch (ex: Exception) {
             return ResponseEntity.badRequest().build()
         }
     }
@@ -34,24 +34,24 @@ class ConfigController(private val configService: ConfigService) {
         try {
             var configList = configService.getConfigsDtoByUserIdAndName(userId, configName)
             return ResponseEntity.ok(configList)
-        } catch (ex:Exception){
+        } catch (ex: Exception) {
             return ResponseEntity.badRequest().build()
         }
     }
 
     @PostMapping
-    fun creatingConfig(@RequestBody creatingConfigDto: CreatingConfigDto): ResponseEntity<ConfigDto> {
-        try{
+    fun createConfig(@RequestBody creatingConfigDto: CreatingConfigDto): ResponseEntity<ConfigDto> {
+        try {
             var config = configService.createConfig(creatingConfigDto)
             return ResponseEntity.ok(config)
-        } catch (e: Exception){
+        } catch (e: Exception) {
             return ResponseEntity.badRequest().build()
         }
     }
 
     @PutMapping
     fun editConfig(@RequestBody editingConfigDto: EditConfigDto): ResponseEntity<ConfigDto> {
-        try{
+        try {
             var res = configService.editConfig(editingConfigDto)
             return ResponseEntity.ok(res)
         } catch (ex: Exception) {
