@@ -7,6 +7,7 @@ import com.vk.logbot.bot.service.ChatInfoService
 import com.vk.logbot.bot.service.State
 import com.vk.logbot.bot.service.StateContext
 import com.vk.logbot.bot.util.KeyboardCreator
+import com.vk.logbot.serverrestclient.AuthClient
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
 import org.telegram.telegrambots.meta.api.objects.replykeyboard.ReplyKeyboardRemove
@@ -19,7 +20,8 @@ class UnauthorizedState(
     stateContext: StateContext,
     botApiMethodExecutor: BotApiMethodExecutor,
     keyboardCreator: KeyboardCreator,
-    private val chatInfoService: ChatInfoService
+    private val chatInfoService: ChatInfoService,
+    private val authClient: AuthClient
 ) : State(stateContext, botApiMethodExecutor, keyboardCreator, emptyMap()) {
 
     override fun initState(chatId: Long) {
@@ -39,7 +41,7 @@ class UnauthorizedState(
             return super.handleNotCommandMessage(chatId, message)
         }
 
-        if (message.text == "1234") {
+        if (authClient.authTelegramUser(message.from.id, message.text)) {
             chatInfoService.updateChatInfoIsAuthorized(chatId, true)
             stateContext.switchState(chatId, StateNames.MAIN_MENU)
             return

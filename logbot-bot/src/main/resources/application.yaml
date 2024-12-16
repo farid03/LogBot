@@ -28,3 +28,7 @@ bot:
   host-url:
   token:
   cert-path:
+
+external-services:
+  server-url: http://localhost:8080
+  auth-url: http://localhost:8083
