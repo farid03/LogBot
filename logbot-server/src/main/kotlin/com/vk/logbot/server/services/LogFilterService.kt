@@ -9,14 +9,14 @@ class LogFilterService(
 ) {
     fun retrieveConfigsForLogs(logs: Collection<String>): Map<String,List<Config>> =
         logs.associate {
-            it to retrieveConfigsForLog(it)
-        }
-
-    fun retrieveConfigsForLog(log: String): List<Config> =
-        configService.getActiveConfigs().filter {
-            log.match(it.regExp)
+            it to retrieveConfigsForLog(configService.getActiveConfigs(), it)
         }
 
     private fun String.match(regex: String) =
         regex.toRegex().matches(this)
+
+    private fun retrieveConfigsForLog(configs: List<Config>, log: String): List<Config> =
+        configs.filter {
+            log.match(it.regExp)
+        }
 }
