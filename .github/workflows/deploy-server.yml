@@ -34,6 +34,22 @@ jobs:
           pkill java
           pwd
 
+    - name: run logbot-auth
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_1 }}
+        username: ${{ secrets.USERNAME_1 }}
+        key: ${{ secrets.KEY_1 }}
+        port: ${{ secrets.PORT_1 }}
+        script: |
+          cd ${{ env.TARGET_DIR  }}
+          nohup ./gradlew :logbot-auth:bootRun --args=' \
+            --spring.profiles.active=stage \
+            --spring.datasource.url=${{ secrets.POSTGRES_BACKEND_URL }} \
+            --spring.datasource.username=${{ secrets.POSTGRES_USERNAME }} \
+            --spring.datasource.password=${{ secrets.POSTGRES_PASSWORD }} \
+            ' > ./auth-output.log 2>&1 &
+
     - name: run logbot-server
       uses: appleboy/ssh-action@master
       with:
