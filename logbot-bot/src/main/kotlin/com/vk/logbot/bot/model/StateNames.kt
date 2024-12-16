@@ -8,6 +8,11 @@ class StateNames {
     companion object {
 
         /**
+         * Состояние до авторизации.
+         */
+        const val UNAUTHORIZED = "unauthorizedState"
+
+        /**
          * Главное меню.
          */
         const val MAIN_MENU = "mainMenuState"

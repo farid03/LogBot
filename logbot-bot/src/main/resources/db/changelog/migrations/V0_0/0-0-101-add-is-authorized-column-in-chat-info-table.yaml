@@ -1,0 +1,11 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0-0-101
+      author: Liquibase
+      changes:
+        - addColumn:
+            tableName: chat_info
+            columns:
+              - column:
+                  name: is_authorized
+                  type: boolean

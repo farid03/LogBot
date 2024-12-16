@@ -22,5 +22,10 @@ data class ChatInfo(
     /**
      * Строковый идентификатор последнего (текущего) состояния бота в данном чате.
      */
-    @Column var lastStateName: String?
+    @Column var lastStateName: String?,
+
+    /**
+     * Флаг авторизации пользователя.
+     */
+    @Column var isAuthorized: Boolean?
 )

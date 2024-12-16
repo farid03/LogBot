@@ -26,4 +26,9 @@ interface ChatInfoService {
      * Возвращает id пользователя, с которым бот находится в чате.
      */
     fun getUserIdByChatId(chatId: Long): Long?
+
+    /**
+     * Обновляет флаг авторизации.
+     */
+    fun updateChatInfoIsAuthorized(chatId: Long, isAuthorized: Boolean)
 }

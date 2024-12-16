@@ -23,7 +23,7 @@ class StateContextImpl(
     /**
      * Начальное состояние.
      */
-    private val initialStateName = StateNames.MAIN_MENU
+    private val initialStateName = StateNames.UNAUTHORIZED
 
     override fun handleUpdate(update: Update) {
         val chatId =
@@ -47,6 +47,12 @@ class StateContextImpl(
             }
 
             val stateName = chatInfo.lastStateName ?: let {
+                switchToStartState(chatId)
+                return
+            }
+
+            val isAuthorized = chatInfoService.getChatInfoByChatId(chatId)?.isAuthorized ?: false
+            if (!isAuthorized && stateName != initialStateName) {
                 switchToStartState(chatId)
                 return
             }
