@@ -1,10 +1,9 @@
 name: Server deployment
 
-
-on: push
+on: pull_request
 
 env:
-  TARGET_DIR: logbot-server
+  TARGET_DIR: logbot
 
 jobs:
   deployment:
@@ -22,15 +21,28 @@ jobs:
         source: "."
         target: ${{ env.TARGET_DIR  }}
 
-    - name: run logbot-server
-      uses: appleboy/ssh-action@v1.2.0
+    - name: shutdown all applications
+      uses: appleboy/ssh-action@master
       with:
         host: ${{ secrets.HOST_1 }}
         username: ${{ secrets.USERNAME_1 }}
         key: ${{ secrets.KEY_1 }}
         port: ${{ secrets.PORT_1 }}
-        script: cd ${{ env.TARGET_DIR  }} && ./gradlew :logbot-server:bootRun --args='--spring.profiles.active=stage' &
+        script: |
+          cd ${{ env.TARGET_DIR  }}
+          ./gradlew --stop
+          pkill java
+          pwd
 
-# https://www.kobzarev.com/programming/deploy-code-on-vps-with-gihub-actions-via-rsync/
-# https://github.com/appleboy/ssh-action
-# https://dev.to/miangame/how-to-automate-a-deploy-in-a-vps-with-github-actions-via-ssh-101e
+    - name: run logbot-server
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_1 }}
+        username: ${{ secrets.USERNAME_1 }}
+        key: ${{ secrets.KEY_1 }}
+        port: ${{ secrets.PORT_1 }}
+        script: |
+          cd ${{ env.TARGET_DIR  }}
+          nohup ./gradlew :logbot-server:bootRun --args=' \
+            --spring.profiles.active=stage' > \
+            ./server-output.log 2>&1 &
