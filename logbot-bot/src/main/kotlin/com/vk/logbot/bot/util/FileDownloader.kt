@@ -32,7 +32,7 @@ class FileDownloader(
      * Возвращает filePath файла в Telegram (для загрузки файла недостаточно одного fileId).
      */
     private fun getFilePath(fileId: String): String {
-        val url = "${telegramConfig.apiUrl}/bot${telegramConfig.botToken}/getFile"
+        val url = "${telegramConfig.apiUrl}/bot${telegramConfig.token}/getFile"
         val uri = UriComponentsBuilder.fromHttpUrl(url).queryParam("file_id", fileId).encode().build().toUri()
 
         val responseBody = restTemplate.exchange(

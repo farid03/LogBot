@@ -12,6 +12,7 @@ import com.vk.logbot.bot.service.StateContext
 import com.vk.logbot.bot.temp.ConfigDao
 import com.vk.logbot.bot.util.FileDownloader
 import com.vk.logbot.bot.util.KeyboardCreator
+import com.vk.logbot.bot.util.RegExpUtils
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
 
@@ -25,7 +26,8 @@ class EditConfigurationAwaitingRegExpState(
     keyboardCreator: KeyboardCreator,
     private val cache: Cache<CacheKey, Any>,
     private val configDao: ConfigDao,
-    private val fileDownloader: FileDownloader
+    private val fileDownloader: FileDownloader,
+    private val regExpUtils: RegExpUtils
 ) : State(
     stateContext,
     botApiMethodExecutor,
@@ -65,9 +67,21 @@ class EditConfigurationAwaitingRegExpState(
         } else {
             message.text
         }
+
+        if (!regExpUtils.validateRegExp(newRegExp)) {
+            botApiMethodExecutor.executeBotApiMethod(
+                SendMessage(
+                    chatId.toString(),
+                    "Регулярное выражение некорректно!"
+                )
+            )
+            initState(chatId)
+            return
+        }
+
         configDao.editRegexpInConfigById(configId, newRegExp)
         cache.invalidate(cacheKey)
-        
+
         botApiMethodExecutor.executeBotApiMethod(
             SendMessage(
                 chatId.toString(),
