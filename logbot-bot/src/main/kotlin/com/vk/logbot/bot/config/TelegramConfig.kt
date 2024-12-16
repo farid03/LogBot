@@ -5,6 +5,8 @@ import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.telegram.telegrambots.facilities.filedownloader.TelegramFileDownloader
 import org.telegram.telegrambots.meta.api.methods.updates.SetWebhook
+import org.telegram.telegrambots.meta.api.objects.InputFile
+import java.io.File
 
 /**
  * Telegram-конфигурация.
@@ -29,11 +31,20 @@ class TelegramConfig {
     lateinit var token: String
 
     /**
+     * Путь к самоподписанному сертификату.
+     */
+    lateinit var certPath: String
+
+    /**
      * Возвращает установщик вебхука для бота.
      */
     @Bean
     fun setWebHook(): SetWebhook {
-        return SetWebhook(hostUrl)
+        val setWebhook = SetWebhook(hostUrl)
+        if (certPath.isNotBlank()) {
+            setWebhook.certificate = InputFile(File(certPath))
+        }
+        return setWebhook
     }
 
     /**
