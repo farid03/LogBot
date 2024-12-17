@@ -50,4 +50,13 @@ class ServerClient(
             .toEntity<ConfigDto>()
             .body!!
     }
+
+    fun deleteConfig(configId: Long) {
+        restClient.delete()
+            .uri {
+                it.path("$serverUrl/configs")
+                    .queryParam("id", configId)
+                    .build()
+            }
+    }
 }
