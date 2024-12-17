@@ -32,6 +32,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-cache")
+    implementation("org.springframework.kafka:spring-kafka")
 
     // database
     implementation("org.liquibase:liquibase-core")

@@ -28,6 +28,11 @@ interface ChatInfoService {
     fun getUserIdByChatId(chatId: Long): Long?
 
     /**
+     * Возвращает id чата по id пользователя.
+     */
+    fun getChatIdByUserId(userId: Long): Long?
+
+    /**
      * Обновляет флаг авторизации.
      */
     fun updateChatInfoIsAuthorized(chatId: Long, isAuthorized: Boolean)
