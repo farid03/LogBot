@@ -31,7 +31,7 @@ class FilterService(
         for (config in configs) {
             val regexp = config.regExp.toRegex()
             if (regexp.matches(message)) {
-                sendMessage(BotMessage(config.userId, config.message))
+                sendMessage(BotMessage(config.message, listOf(config.userId)))
             }
         }
     }

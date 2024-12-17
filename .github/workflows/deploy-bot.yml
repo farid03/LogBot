@@ -1,0 +1,69 @@
+name: Bot & Web deployment
+
+on:
+  pull_request_target:
+    types:
+      - closed
+env:
+  TARGET_DIR: logbot
+
+jobs:
+  deployment:
+    if: github.event.pull_request.merged == true
+    runs-on: ubuntu-latest
+    environment: staging
+    steps:
+    - uses: actions/checkout@v4
+    - name: clone logbot sources
+      uses: appleboy/scp-action@v0.1.3
+      with:
+        host: ${{ secrets.HOST_2 }}
+        username: ${{ secrets.USERNAME_2 }}
+        password: ${{ secrets.PASSWORD_2 }}
+        port: ${{ secrets.PORT_2 }}
+        source: "."
+        target: ${{ env.TARGET_DIR  }}
+
+    - name: shutdown all applications
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_2 }}
+        username: ${{ secrets.USERNAME_2 }}
+        password: ${{ secrets.PASSWORD_2 }}
+        port: ${{ secrets.PORT_2 }}
+        script: |
+          cd ${{ env.TARGET_DIR  }}
+          ./gradlew --stop
+          pkill java
+          pwd
+
+    - name: run logbot-bot
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_2 }}
+        username: ${{ secrets.USERNAME_2 }}
+        password: ${{ secrets.PASSWORD_2 }}
+        port: ${{ secrets.PORT_2 }}
+        script: |
+          cd ${{ env.TARGET_DIR  }}
+          nohup ./gradlew :logbot-bot:bootRun --args=' \
+            --spring.profiles.active=stage \
+            --spring.datasource.url=${{ secrets.POSTGRES_BOT_URL }} \
+            --spring.datasource.username=${{ secrets.POSTGRES_USERNAME }} \
+            --spring.datasource.password=${{ secrets.POSTGRES_PASSWORD }} \
+            --bot.host-url=${{ secrets.BOT_HOST_URL }} \
+            --bot.token=${{ secrets.BOT_TOKEN }} \
+            --external-services.auth-url=${{ secrets.LOGBOT_AUTH_URL }} \
+            --external-services.server-url=${{ secrets.LOGBOT_SERVER_URL }} \
+            ' > ./bot-output.log 2>&1 &
+          
+    - name: run logbot-web
+      uses: appleboy/ssh-action@master
+      with:
+        host: ${{ secrets.HOST_2 }}
+        username: ${{ secrets.USERNAME_2 }}
+        password: ${{ secrets.PASSWORD_2 }}
+        port: ${{ secrets.PORT_2 }}
+        script: |
+          cd ${{ env.TARGET_DIR  }}
+          nohup ./gradlew :logbot-web:composeApp:wasmJsBrowserRun > ./web-output.log 2>&1 &

@@ -12,3 +12,13 @@ spring:
   h2:
     console:
       enabled: true
+
+bot:
+  api-url: https://api.telegram.org
+  host-url:
+  token:
+  cert-path:
+
+external-services:
+  auth-url: http://localhost:8083
+  server-url: http://localhost:8080
