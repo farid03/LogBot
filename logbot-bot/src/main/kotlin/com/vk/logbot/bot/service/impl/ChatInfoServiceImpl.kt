@@ -26,6 +26,10 @@ class ChatInfoServiceImpl(private val chatInfoRepository: ChatInfoRepository) : 
         return getChatInfoByChatId(chatId)?.userId
     }
 
+    override fun getChatIdByUserId(userId: Long): Long? {
+        return chatInfoRepository.findChatInfoByUserId(userId)?.chatId
+    }
+
     override fun updateChatInfoIsAuthorized(chatId: Long, isAuthorized: Boolean) {
         val chatInfo = chatInfoRepository.findById(chatId).get()
         chatInfo.isAuthorized = isAuthorized

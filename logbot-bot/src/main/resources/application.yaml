@@ -10,6 +10,12 @@ spring:
     database: postgresql
     hibernate:
       ddl-auto: none
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9093
+      group-id: my-consumer-group
+    producer:
+      bootstrap-servers: localhost:9093
 
 server:
   port: 8081

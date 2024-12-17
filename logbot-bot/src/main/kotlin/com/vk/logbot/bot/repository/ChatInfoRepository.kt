@@ -6,4 +6,10 @@ import org.springframework.data.repository.CrudRepository
 /**
  * Репозиторий информации о чатах.
  */
-interface ChatInfoRepository : CrudRepository<ChatInfo, Long>
+interface ChatInfoRepository : CrudRepository<ChatInfo, Long> {
+
+    /**
+     * Возвращает информацию о чате по id пользователя.
+     */
+    fun findChatInfoByUserId(userId: Long): ChatInfo?
+}
