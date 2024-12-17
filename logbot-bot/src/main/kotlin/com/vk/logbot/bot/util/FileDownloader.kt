@@ -11,6 +11,9 @@ import org.telegram.telegrambots.facilities.filedownloader.TelegramFileDownloade
 import org.telegram.telegrambots.meta.api.objects.ApiResponse
 import org.telegram.telegrambots.meta.api.objects.File
 
+/**
+ * Загрузчик файлов из Telegram.
+ */
 @Component
 class FileDownloader(
     private val restTemplate: RestTemplate,
@@ -18,21 +21,26 @@ class FileDownloader(
     private val telegramFileDownloader: TelegramFileDownloader
 ) {
 
-    fun getFile(fileId: String, chatId: String): java.io.File {
-        return telegramFileDownloader.downloadFile(getFilePath(fileId, chatId))
+    /**
+     * Загружает файл из Telegram по его id.
+     */
+    fun getFile(fileId: String): java.io.File {
+        return telegramFileDownloader.downloadFile(getFilePath(fileId))
     }
 
-    private fun getFilePath(fileId: String, chatId: String): String {
-        val url = "${telegramConfig.apiUrl}/bot${telegramConfig.botToken}/getFile"
+    /**
+     * Возвращает filePath файла в Telegram (для загрузки файла недостаточно одного fileId).
+     */
+    private fun getFilePath(fileId: String): String {
+        val url = "${telegramConfig.apiUrl}/bot${telegramConfig.token}/getFile"
         val uri = UriComponentsBuilder.fromHttpUrl(url).queryParam("file_id", fileId).encode().build().toUri()
 
-        val responseBody = restTemplate.exchange(uri,
+        val responseBody = restTemplate.exchange(
+            uri,
             HttpMethod.GET,
             null,
             object : ParameterizedTypeReference<ApiResponse<File>>() {}).body
-        val file = responseBody?.result ?: throw BotFileNotFoundException(
-            fileId, chatId
-        )
+        val file = responseBody?.result ?: throw BotFileNotFoundException(fileId)
 
         return file.filePath
     }

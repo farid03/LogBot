@@ -1,6 +1,7 @@
 plugins {
     kotlin("jvm") version "1.9.25"
     kotlin("plugin.spring") version "1.9.25"
+    kotlin("plugin.jpa") version "2.0.21"
     id("org.springframework.boot") version "3.3.4"
     id("io.spring.dependency-management") version "1.1.6"
 }
@@ -29,12 +30,23 @@ dependencies {
 
     // spring
     implementation("org.springframework.boot:spring-boot-starter-web")
+    implementation("org.springframework.boot:spring-boot-starter-data-jpa")
+    implementation("org.springframework.boot:spring-boot-starter-cache")
+
+    // database
+    implementation("org.liquibase:liquibase-core")
+    runtimeOnly("org.postgresql:postgresql")
+    runtimeOnly("com.h2database:h2")
+
+    // cache
+    implementation("com.github.ben-manes.caffeine:caffeine:3.1.8")
 
     // telegram
     implementation("org.telegram:telegrambots-spring-boot-starter:6.9.7.1")
 
     // kotlin
-    implementation("org.jetbrains.kotlin:kotlin-reflect")
+    implementation(kotlin("stdlib-jdk8"))
+    implementation(kotlin("reflect"))
 
     // json
     implementation("com.fasterxml.jackson.module:jackson-module-kotlin")
@@ -55,4 +67,5 @@ kotlin {
 
 tasks.withType<Test> {
     useJUnitPlatform()
+    jvmArgs("--add-opens", "java.base/java.lang=ALL-UNNAMED")
 }

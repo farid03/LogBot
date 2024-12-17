@@ -1,6 +1,15 @@
 spring:
   application:
     name: logbot-bot
+  datasource:
+    url: jdbc:postgresql://localhost:5432/logbot_bot_db
+    username: postgres
+    password: postgres
+    driver-class-name: org.postgresql.Driver
+  jpa:
+    database: postgresql
+    hibernate:
+      ddl-auto: none
 
 server:
   port: 8081
@@ -11,8 +20,15 @@ springdoc:
   swagger-ui:
     path: /swagger
 
-telegram:
+cache:
+  time-to-live: 1h
+
+bot:
   api-url: https://api.telegram.org
-  webhook-path: webhook_path
-  bot-username: DWS_VK_LogBot
-  bot-token: bot_token
+  host-url:
+  token:
+  cert-path:
+
+external-services:
+  server-url: http://localhost:8080
+  auth-url: http://localhost:8083

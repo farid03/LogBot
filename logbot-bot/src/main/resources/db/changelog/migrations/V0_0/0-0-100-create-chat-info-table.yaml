@@ -1,0 +1,24 @@
+databaseChangeLog:
+  - changeSet:
+      id: 0-0-100
+      author: Liquibase
+      changes:
+        - createTable:
+            columns:
+              - column:
+                  constraints:
+                    nullable: false
+                    primaryKey: true
+                    primaryKeyName: pk_chat
+                  name: chat_id
+                  type: bigint
+              - column:
+                  constraints:
+                    nullable: false
+                    unique: true
+                  name: user_id
+                  type: bigint
+              - column:
+                  name: last_state_name
+                  type: varchar
+            tableName: chat_info
