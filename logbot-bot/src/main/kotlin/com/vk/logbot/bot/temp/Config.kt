@@ -6,5 +6,6 @@ data class Config(
     var ownerId: Long,
     var name: String,
     var regExp: String,
-    var message: String
+    var message: String,
+    var active: Boolean
 )

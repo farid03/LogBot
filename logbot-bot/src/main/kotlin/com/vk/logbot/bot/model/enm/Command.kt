@@ -9,6 +9,7 @@ enum class Command(val text: String) {
     BACK("Назад"),
     MAIN_MENU("Главное меню"),
     CONFIGURATIONS("Конфигурации"),
+    ACTIVE_CONFIGURATIONS("Активные конфигурации"),
     CREATE("Создать"),
     EDIT("Редактировать"),
     RENAME("Переименовать"),

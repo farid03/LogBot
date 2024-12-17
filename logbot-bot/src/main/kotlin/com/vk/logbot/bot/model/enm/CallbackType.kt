@@ -6,6 +6,11 @@ package com.vk.logbot.bot.model.enm
 enum class CallbackType {
 
     /**
+     * Выбор активной конфигурации для реалтайма.
+     */
+    MAIN_MENU_ACTIVE_CONFIGURATION_CHOICE,
+
+    /**
      * Выбор конфигурации для переименования.
      */
     EDIT_CONFIGURATION_MENU_CHOICE_FOR_RENAME,

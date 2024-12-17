@@ -43,7 +43,7 @@ class KeyboardCreator(private val callbackUtils: CallbackUtils) {
     /**
      * Создаёт инлайн-кнопку.
      */
-    private fun createInlineButton(text: String, data: String, callbackType: CallbackType): InlineKeyboardButton {
+    fun createInlineButton(text: String, data: String, callbackType: CallbackType): InlineKeyboardButton {
         val button = InlineKeyboardButton(text)
         button.callbackData = callbackUtils.createCallbackData(callbackType, data)
         return button
