@@ -82,6 +82,7 @@ class MainMenuState(
 
         if (configs.isEmpty()) {
             botApiMethodExecutor.executeBotApiMethod(SendMessage(chatId.toString(), "У вас нет конфигураций!"))
+            return
         }
 
         val sendMessage = SendMessage()
