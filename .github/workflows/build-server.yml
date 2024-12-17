@@ -20,4 +20,13 @@ jobs:
         uses: gradle/actions/setup-gradle@417ae3ccd767c252f5661f1ace9f835f9654f2b5 # v3.1.0
 
       - name: Build server application
-        run: ./gradlew :logbot-server:build
+        run: ./gradlew :logbot-server:build -x :logbot-server:test
+
+      - name: Build auth application
+        run: ./gradlew :logbot-auth:build -x :logbot-auth:test
+
+      - name: Build bot application
+        run: ./gradlew :logbot-bot:build -x :logbot-bot:test
+
+      - name: Build web application
+        run: ./gradlew :logbot-web:composeApp:build
