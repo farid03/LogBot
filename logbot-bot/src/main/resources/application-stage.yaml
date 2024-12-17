@@ -1,6 +1,6 @@
 spring:
   datasource:
-    url: POSTGRES_BACKEND_URL
+    url: POSTGRES_BOT_URL
     username: POSTGRES_USERNAME
     password: POSTGRES_PASSWORD
     driver-class-name: org.postgresql.Driver
@@ -8,11 +8,14 @@ spring:
     database-platform: org.hibernate.dialect.PostgreSQLDialect
     database: postgresql
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: none
 
-server:
-  port: 8083
+bot:
+  api-url: https://api.telegram.org
+  host-url: BOT_HOST_URL
+  token: BOT_TOKEN
+  cert-path:
 
-logbot:
-  auth:
-    code: vkontakte
+external-services:
+  auth-url: LOGBOT_AUTH_URL
+  server-url: LOGBOT_SERVER_URL

@@ -1,12 +1,15 @@
 name: Server deployment
 
-on: pull_request
-
+on:
+  pull_request_target:
+    types:
+      - closed
 env:
   TARGET_DIR: logbot
 
 jobs:
   deployment:
+    if: github.event.pull_request.merged == true
     runs-on: ubuntu-latest
     environment: staging
     steps:
@@ -60,5 +63,10 @@ jobs:
         script: |
           cd ${{ env.TARGET_DIR  }}
           nohup ./gradlew :logbot-server:bootRun --args=' \
-            --spring.profiles.active=stage' > \
-            ./server-output.log 2>&1 &
+            --spring.profiles.active=stage \
+            --spring.datasource.url=${{ secrets.POSTGRES_BACKEND_URL }} \
+            --spring.datasource.username=${{ secrets.POSTGRES_USERNAME }} \
+            --spring.datasource.password=${{ secrets.POSTGRES_PASSWORD }} \
+            --spring.kafka.consumer.bootstrap-servers=${{ secrets.KAFKA_BOOTSTRAP_SERVERS }} \
+            --spring.kafka.producer.bootstrap-servers=${{ secrets.KAFKA_BOOTSTRAP_SERVERS }} \
+            ' > ./server-output.log 2>&1 &

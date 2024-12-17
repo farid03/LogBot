@@ -22,13 +22,3 @@ springdoc:
 
 cache:
   time-to-live: 1h
-
-bot:
-  api-url: https://api.telegram.org
-  host-url:
-  token:
-  cert-path:
-
-external-services:
-  server-url: http://localhost:8080
-  auth-url: http://localhost:8083
