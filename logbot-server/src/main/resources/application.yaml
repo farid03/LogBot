@@ -1,6 +1,26 @@
 spring:
   application:
     name: logbot-server
+  datasource:
+    url: jdbc:postgresql://localhost:5432/postgres
+    username: postgres
+    password: postgres
+  jpa:
+    properties:
+      hibernate:
+        ddl-auto: none
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+  flyway:
+    enabled: true
+    baselineOnMigrate: true
+  kafka:
+    consumer:
+      bootstrap-servers: localhost:9093
+      group-id: my-consumer-group
+      auto-offset-reset: earliest
+    producer:
+      bootstrap-servers: localhost:9093
+
 
 server:
   port: 8080
