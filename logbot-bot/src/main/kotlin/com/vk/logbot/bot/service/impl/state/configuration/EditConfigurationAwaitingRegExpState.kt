@@ -9,10 +9,10 @@ import com.vk.logbot.bot.model.enm.Command
 import com.vk.logbot.bot.service.BotApiMethodExecutor
 import com.vk.logbot.bot.service.State
 import com.vk.logbot.bot.service.StateContext
-import com.vk.logbot.bot.temp.ConfigDao
 import com.vk.logbot.bot.util.FileDownloader
 import com.vk.logbot.bot.util.KeyboardCreator
 import com.vk.logbot.bot.util.RegExpUtils
+import com.vk.logbot.serverrestclient.ServerClient
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
 
@@ -25,7 +25,7 @@ class EditConfigurationAwaitingRegExpState(
     botApiMethodExecutor: BotApiMethodExecutor,
     keyboardCreator: KeyboardCreator,
     private val cache: Cache<CacheKey, Any>,
-    private val configDao: ConfigDao,
+    private val serverClient: ServerClient,
     private val fileDownloader: FileDownloader,
     private val regExpUtils: RegExpUtils
 ) : State(
@@ -50,7 +50,7 @@ class EditConfigurationAwaitingRegExpState(
         }
 
         val cacheKey = CacheKey(chatId, CacheDataType.EDITABLE_CONFIGURATION_ID)
-        val configId = cache.getIfPresent(cacheKey) as Int? ?: let {
+        val configId = cache.getIfPresent(cacheKey) as Long? ?: let {
             botApiMethodExecutor.executeBotApiMethod(
                 SendMessage(
                     chatId.toString(),
@@ -79,9 +79,10 @@ class EditConfigurationAwaitingRegExpState(
             return
         }
 
-        configDao.editRegexpInConfigById(configId, newRegExp)
-        cache.invalidate(cacheKey)
+        val config = serverClient.getConfigById(configId)
+        serverClient.editConfig(configId, config.name, message.text, config.message, config.active)
 
+        cache.invalidate(cacheKey)
         botApiMethodExecutor.executeBotApiMethod(
             SendMessage(
                 chatId.toString(),

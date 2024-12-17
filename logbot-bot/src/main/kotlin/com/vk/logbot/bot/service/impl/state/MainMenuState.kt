@@ -8,10 +8,10 @@ import com.vk.logbot.bot.service.BotApiMethodExecutor
 import com.vk.logbot.bot.service.ChatInfoService
 import com.vk.logbot.bot.service.State
 import com.vk.logbot.bot.service.StateContext
-import com.vk.logbot.bot.temp.ConfigDao
 import com.vk.logbot.bot.util.CallbackUtils
 import com.vk.logbot.bot.util.ConfigUtils
 import com.vk.logbot.bot.util.KeyboardCreator
+import com.vk.logbot.serverrestclient.ServerClient
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageReplyMarkup
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
@@ -25,7 +25,7 @@ class MainMenuState(
     botApiMethodExecutor: BotApiMethodExecutor,
     keyboardCreator: KeyboardCreator,
     private val chatInfoService: ChatInfoService,
-    private val configDao: ConfigDao,
+    private val serverClient: ServerClient,
     private val configUtils: ConfigUtils,
     private val callbackUtils: CallbackUtils
 ) : State(
@@ -50,25 +50,25 @@ class MainMenuState(
             super.handleCallbackQuery(chatId, query)
         }
 
-        val configId = callbackData.data.toInt()
+        val configId = callbackData.data.toLong()
         val userId = chatInfoService.getUserIdByChatId(chatId)!!
-        val configs = configDao.getConfigsByUserId(userId)
+        val configs = serverClient.getConfigsByUserId(userId)
 
-        if (configId == -1) {
+        if (configId == -1L) {
             configs.forEach {
-                if (it.id != null) {
-                    configDao.setActive(it.id!!, false)
-                }
+                serverClient.editConfig(it.id, it.name, it.regExp, it.message, false)
             }
         } else {
-            val config = configDao.getConfigById(configId) ?: throw NullPointerException()
-            configDao.setActive(configId, !config.active)
+            val config = serverClient.getConfigById(configId)
+            serverClient.editConfig(configId, config.name, config.regExp, config.message, !config.active)
         }
+
+        val updatedConfigs = serverClient.getConfigsByUserId(userId)
 
         val editMessage = EditMessageReplyMarkup()
         editMessage.chatId = chatId.toString()
         editMessage.messageId = query.message.messageId
-        editMessage.replyMarkup = configUtils.createConfigsKeyboardWithActiveMarks(configs)
+        editMessage.replyMarkup = configUtils.createConfigsKeyboardWithActiveMarks(updatedConfigs)
 
         botApiMethodExecutor.executeBotApiMethod(editMessage)
     }
@@ -78,7 +78,7 @@ class MainMenuState(
      */
     private fun handleActiveConfigurations(chatId: Long) {
         val userId = chatInfoService.getUserIdByChatId(chatId)!!
-        val configs = configDao.getConfigsByUserId(userId)
+        val configs = serverClient.getConfigsByUserId(userId)
 
         if (configs.isEmpty()) {
             botApiMethodExecutor.executeBotApiMethod(SendMessage(chatId.toString(), "У вас нет конфигураций!"))

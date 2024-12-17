@@ -9,8 +9,8 @@ import com.vk.logbot.bot.model.enm.Command
 import com.vk.logbot.bot.service.BotApiMethodExecutor
 import com.vk.logbot.bot.service.State
 import com.vk.logbot.bot.service.StateContext
-import com.vk.logbot.bot.temp.ConfigDao
 import com.vk.logbot.bot.util.KeyboardCreator
+import com.vk.logbot.serverrestclient.ServerClient
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
 
@@ -23,7 +23,7 @@ class EditConfigurationAwaitingName(
     botApiMethodExecutor: BotApiMethodExecutor,
     keyboardCreator: KeyboardCreator,
     private val cache: Cache<CacheKey, Any>,
-    private val configDao: ConfigDao
+    private val serverClient: ServerClient
 ) : State(
     stateContext,
     botApiMethodExecutor,
@@ -46,7 +46,7 @@ class EditConfigurationAwaitingName(
         }
 
         val cacheKey = CacheKey(chatId, CacheDataType.EDITABLE_CONFIGURATION_ID)
-        val configId = cache.getIfPresent(cacheKey) as Int? ?: let {
+        val configId = cache.getIfPresent(cacheKey) as Long? ?: let {
             botApiMethodExecutor.executeBotApiMethod(
                 SendMessage(
                     chatId.toString(),
@@ -56,7 +56,10 @@ class EditConfigurationAwaitingName(
             stateContext.switchState(chatId, StateNames.EDIT_CONFIGURATION_MENU)
             return
         }
-        configDao.renameConfigById(configId, message.text)
+
+        val config = serverClient.getConfigById(configId)
+        serverClient.editConfig(configId, message.text, config.regExp, config.message, config.active)
+
         cache.invalidate(cacheKey)
         botApiMethodExecutor.executeBotApiMethod(
             SendMessage(

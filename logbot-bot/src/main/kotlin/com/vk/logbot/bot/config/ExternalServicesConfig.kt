@@ -1,6 +1,7 @@
 package com.vk.logbot.bot.config
 
 import com.vk.logbot.serverrestclient.AuthClient
+import com.vk.logbot.serverrestclient.ServerClient
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.context.properties.ConfigurationProperties
 import org.springframework.context.annotation.Bean
@@ -36,5 +37,13 @@ class ExternalServicesConfig {
     @Bean
     fun authClient(): AuthClient {
         return AuthClient(authUrl, restClient)
+    }
+
+    /**
+     * Возвращает ServerClient.
+     */
+    @Bean
+    fun serverClient(): ServerClient {
+        return ServerClient(serverUrl, restClient)
     }
 }

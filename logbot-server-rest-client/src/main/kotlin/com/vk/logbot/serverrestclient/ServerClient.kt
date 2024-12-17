@@ -10,6 +10,18 @@ class ServerClient(
     private val serverUrl: String,
     private val restClient: RestClient = RestClient.create()
 ) {
+    fun getConfigById(configId: Long): ConfigDto {
+        return restClient.get()
+            .uri {
+                it.path("$serverUrl/configs")
+                    .queryParam("id", configId)
+                    .build()
+            }
+            .retrieve()
+            .toEntity<ConfigDto>()
+            .body!!
+    }
+
     fun getConfigsByUserId(userId: Long): List<ConfigDto> {
         return restClient.get()
             .uri {

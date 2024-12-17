@@ -9,9 +9,8 @@ import com.vk.logbot.bot.model.enm.Command
 import com.vk.logbot.bot.service.BotApiMethodExecutor
 import com.vk.logbot.bot.service.State
 import com.vk.logbot.bot.service.StateContext
-import com.vk.logbot.bot.temp.Config
-import com.vk.logbot.bot.temp.ConfigDao
 import com.vk.logbot.bot.util.KeyboardCreator
+import com.vk.logbot.serverrestclient.ServerClient
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.Message
 
@@ -24,7 +23,7 @@ class CreateConfigurationAwaitingMessageState(
     botApiMethodExecutor: BotApiMethodExecutor,
     keyboardCreator: KeyboardCreator,
     private val cache: Cache<CacheKey, Any>,
-    private val configDao: ConfigDao
+    private val serverClient: ServerClient
 ) : State(
     stateContext, botApiMethodExecutor, keyboardCreator, linkedMapOf(
         Command.BACK to StateNames.CONFIGURATIONS_MENU,
@@ -62,8 +61,7 @@ class CreateConfigurationAwaitingMessageState(
         }
 
         val userId = message.from.id
-        val config = Config(null, userId, cachedName, cachedRegExp, message.text, false)
-        configDao.saveConfig(config)
+        val config = serverClient.createConfig(userId, cachedName, cachedRegExp, message.text)
         invalidateCaches(chatId)
 
         botApiMethodExecutor.executeBotApiMethod(
