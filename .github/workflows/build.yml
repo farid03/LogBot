@@ -28,5 +28,5 @@ jobs:
       - name: Build bot application
         run: ./gradlew :logbot-bot:build -x :logbot-bot:test
 
-#      - name: Build web application
+#      - name: Build web application # слишком долго выполняется
 #        run: ./gradlew :logbot-web:composeApp:build
