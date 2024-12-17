@@ -12,11 +12,7 @@ class ServerClient(
 ) {
     fun getConfigById(configId: Long): ConfigDto {
         return restClient.get()
-            .uri {
-                it.path("$serverUrl/configs")
-                    .queryParam("id", configId)
-                    .build()
-            }
+            .uri("$serverUrl/configs?id=$configId")
             .retrieve()
             .toEntity<ConfigDto>()
             .body!!
@@ -24,11 +20,7 @@ class ServerClient(
 
     fun getConfigsByUserId(userId: Long): List<ConfigDto> {
         return restClient.get()
-            .uri {
-                it.path("$serverUrl/configs")
-                    .queryParam("user_id", userId)
-                    .build()
-            }
+            .uri("$serverUrl/configs?user_id=$userId")
             .retrieve()
             .toEntity<List<ConfigDto>>()
             .body ?: emptyList()
@@ -65,10 +57,6 @@ class ServerClient(
 
     fun deleteConfig(configId: Long) {
         restClient.delete()
-            .uri {
-                it.path("$serverUrl/configs")
-                    .queryParam("id", configId)
-                    .build()
-            }
+            .uri("$serverUrl/configs?id=$configId")
     }
 }
