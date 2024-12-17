@@ -12,7 +12,7 @@ class ServerClient(
 ) {
     fun getConfigById(configId: Long): ConfigDto {
         return restClient.get()
-            .uri("$serverUrl/configs?id=$configId")
+            .uri("$serverUrl/configs/$configId")
             .retrieve()
             .toEntity<ConfigDto>()
             .body!!
@@ -57,6 +57,6 @@ class ServerClient(
 
     fun deleteConfig(configId: Long) {
         restClient.delete()
-            .uri("$serverUrl/configs?id=$configId")
+            .uri("$serverUrl/configs/$configId")
     }
 }
