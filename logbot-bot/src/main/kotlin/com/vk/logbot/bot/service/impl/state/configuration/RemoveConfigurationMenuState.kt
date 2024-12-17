@@ -8,10 +8,10 @@ import com.vk.logbot.bot.service.BotApiMethodExecutor
 import com.vk.logbot.bot.service.ChatInfoService
 import com.vk.logbot.bot.service.State
 import com.vk.logbot.bot.service.StateContext
-import com.vk.logbot.bot.temp.ConfigDao
 import com.vk.logbot.bot.util.CallbackUtils
 import com.vk.logbot.bot.util.ConfigUtils
 import com.vk.logbot.bot.util.KeyboardCreator
+import com.vk.logbot.serverrestclient.ServerClient
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery
 
@@ -24,7 +24,7 @@ class RemoveConfigurationMenuState(
     botApiMethodExecutor: BotApiMethodExecutor,
     keyboardCreator: KeyboardCreator,
     private val chatInfoService: ChatInfoService,
-    private val configDao: ConfigDao,
+    private val serverClient: ServerClient,
     private val configUtils: ConfigUtils,
     private val callbackUtils: CallbackUtils
 ) : State(
@@ -35,7 +35,8 @@ class RemoveConfigurationMenuState(
 ) {
     override fun initState(chatId: Long) {
         val userId = chatInfoService.getUserIdByChatId(chatId)!!
-        if (configDao.getConfigsByUserId(userId).isEmpty()) {
+        val configs = serverClient.getConfigsByUserId(userId)
+        if (configs.isEmpty()) {
             botApiMethodExecutor.executeBotApiMethod(
                 SendMessage(
                     chatId.toString(),
@@ -50,7 +51,6 @@ class RemoveConfigurationMenuState(
         initMessage.replyMarkup = replyKeyboardMarkup
         botApiMethodExecutor.executeBotApiMethod(initMessage)
 
-        val configs = configDao.getConfigsByUserId(userId)
         val configListMessage =
             configUtils.createConfigListMessage(configs, chatId, CallbackType.REMOVE_CONFIGURATION_MENU_CHOICE)
         botApiMethodExecutor.executeBotApiMethod(configListMessage)
@@ -60,7 +60,19 @@ class RemoveConfigurationMenuState(
         when (command) {
             Command.REMOVE_ALL -> {
                 val userId = chatInfoService.getUserIdByChatId(chatId)!!
-                configDao.removeConfigsByUserId(userId)
+                val configs = serverClient.getConfigsByUserId(userId)
+                if (configs.isEmpty()) {
+                    botApiMethodExecutor.executeBotApiMethod(
+                        SendMessage(
+                            chatId.toString(),
+                            "У вас нет конфигураций. Вы возвращены в меню конфигураций"
+                        )
+                    )
+                    stateContext.switchState(chatId, StateNames.CONFIGURATIONS_MENU)
+                    return
+                }
+
+                configs.forEach { serverClient.deleteConfig(it.id) }
                 botApiMethodExecutor.executeBotApiMethod(
                     SendMessage(
                         chatId.toString(),
@@ -80,8 +92,8 @@ class RemoveConfigurationMenuState(
             super.handleCallbackQuery(chatId, query)
         }
 
-        val configId = callbackData.data.toInt()
-        configDao.removeConfigById(configId)
+        val configId = callbackData.data.toLong()
+        serverClient.deleteConfig(configId)
         botApiMethodExecutor.executeBotApiMethod(SendMessage(chatId.toString(), "Конфигурация успешно удалена!"))
         initState(chatId)
     }
