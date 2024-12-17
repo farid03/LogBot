@@ -6,10 +6,10 @@ spring:
     username: postgres
     password: postgres
   jpa:
-    properties:
-      hibernate:
-        ddl-auto: none
-        dialect: org.hibernate.dialect.PostgreSQLDialect
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+    database: postgresql
+    hibernate:
+      ddl-auto: none
   flyway:
     enabled: true
     baselineOnMigrate: true
