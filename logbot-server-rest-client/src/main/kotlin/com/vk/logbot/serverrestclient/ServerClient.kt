@@ -58,5 +58,6 @@ class ServerClient(
     fun deleteConfig(configId: Long) {
         restClient.delete()
             .uri("$serverUrl/configs/$configId")
+            .retrieve()
     }
 }
