@@ -26,10 +26,9 @@ allprojects {
     val props = Properties().apply {
         load(FileInputStream("$rootDir/logbot-web/config.gradle"))
     }
-    extra["SERVER_PATH"] = props.getProperty("SERVER_PATH")
+    extra["SERVER_URL"] = props.getProperty("SERVER_URL")
     extra["SERVER_PORT"] = props.getProperty("SERVER_PORT")
     extra["SERVER_SHEME"] = props.getProperty("SERVER_SHEME")
-    extra["SUPPORT_BROWSER_WITHOUT_TELEGRAM"] = props.getProperty("SUPPORT_BROWSER_WITHOUT_TELEGRAM")
 }
 tasks.register("clean ") {
     doLast {
