@@ -11,11 +11,11 @@ import org.springframework.test.context.ActiveProfiles
 class BotApplicationTests {
 
     @MockBean
+    @Suppress("unused")
     lateinit var logBot: LogBot
 
     @Test
     fun contextLoads() {
         1 + 1 shouldBe 2
     }
-
 }
