@@ -31,8 +31,9 @@ class CreateConfigurationAwaitingNameState(
     override fun initState(chatId: Long) {
         cache.invalidate(CacheKey(chatId, CacheDataType.CREATABLE_CONFIGURATION_NAME))
 
-        val answer = SendMessage(chatId.toString(), "Введите название конфигурации")
+        val answer = SendMessage(chatId.toString(), "Введите _уникальное_ название конфигурации")
         answer.replyMarkup = replyKeyboardMarkup
+        answer.enableMarkdownV2(true)
         botApiMethodExecutor.executeBotApiMethod(answer)
     }
 

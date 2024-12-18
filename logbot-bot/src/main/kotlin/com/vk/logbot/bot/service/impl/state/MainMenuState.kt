@@ -87,7 +87,7 @@ class MainMenuState(
 
         val sendMessage = SendMessage()
         sendMessage.chatId = chatId.toString()
-        sendMessage.text = "Ваши конфигурации:"
+        sendMessage.text = "Ваши конфигурации \uD83D\uDD3D"
         sendMessage.enableMarkdownV2(true)
         sendMessage.replyMarkup = configUtils.createConfigsKeyboardWithActiveMarks(configs)
 

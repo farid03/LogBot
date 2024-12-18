@@ -6,10 +6,10 @@ package com.vk.logbot.bot.model.enm
 enum class Command(val text: String) {
 
     START("/start"),
-    BACK("Назад"),
-    MAIN_MENU("Главное меню"),
-    CONFIGURATIONS("Конфигурации"),
-    ACTIVE_CONFIGURATIONS("Активные конфигурации"),
+    BACK("◀\uFE0F Назад"),
+    MAIN_MENU("\uD83C\uDFE0 Главное меню"),
+    CONFIGURATIONS("\uD83D\uDD27 Конфигурации"),
+    ACTIVE_CONFIGURATIONS("\uD83D\uDD14 Активные конфигурации"),
     CREATE("Создать"),
     EDIT("Редактировать"),
     RENAME("Переименовать"),
