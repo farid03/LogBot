@@ -1,7 +1,0 @@
-allprojects {
-    ext {
-        SERVER_PORT = 8083
-        SERVER_SHEME = http
-        SERVER_URL = 217.114.43.224
-    }
-}
