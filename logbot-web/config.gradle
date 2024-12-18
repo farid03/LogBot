@@ -1,0 +1,8 @@
+allprojects {
+    ext {
+        SUPPORT_BROWSER_WITHOUT_TELEGRAM = true
+        SERVER_PORT = 8084
+        SERVER_SHEME = http
+        SERVER_PATH = SITE OR IP
+    }
+}
