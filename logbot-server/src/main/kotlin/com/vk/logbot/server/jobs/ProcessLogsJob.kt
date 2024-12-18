@@ -26,17 +26,19 @@ class ProcessLogsJob(
         logEntryRepository.findByReceivedAtLessThanEqual(maxReceivedAt)
             .map { it.message }
             .let { logFilterService.retrieveConfigsForLogs(it) }
+            .filter { it.value.isNotEmpty() }
             .toBotMessages()
-            .filter { it.userIds.isNotEmpty() }
             .forEach { message -> kafkaService.sendMessage(message) }
         logEntryRepository.deleteByReceivedAtLessThanEqual(maxReceivedAt)
     }
 
     private fun Map<String, List<Config>>.toBotMessages(): List<BotMessage> =
-        this.map { (key, value) ->
-            BotMessage(
-                message = key,
-                userIds = value.map { it.userId }
-            )
+        this.flatMap { (key, value) ->
+            value.map {
+                BotMessage(
+                    message = it.message,
+                    userIds = listOf(it.userId)
+                )
+            }
         }
 }
