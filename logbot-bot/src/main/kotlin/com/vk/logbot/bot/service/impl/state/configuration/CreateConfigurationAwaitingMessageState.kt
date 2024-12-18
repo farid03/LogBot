@@ -66,13 +66,12 @@ class CreateConfigurationAwaitingMessageState(
 
         val sendMessage = SendMessage(
             chatId.toString(), "Создана новая конфигурация\n\n" +
-                    "*Идентификатор*: ${config.id}\n" +
-                    "*Название*: \"${config.name}\"\n" +
-                    "*Регулярное выражение*: \"${config.regExp}\"\n" +
-                    "*Сообщение*: \"${config.message}\"\n\n" +
+                    "Идентификатор: ${config.id}\n" +
+                    "Название: \"${config.name}\"\n" +
+                    "Регулярное выражение: \"${config.regExp}\"\n" +
+                    "Сообщение: \"${config.message}\"\n\n" +
                     "Вы возвращены в меню конфигураций"
         )
-        sendMessage.enableMarkdownV2(true)
 
         botApiMethodExecutor.executeBotApiMethod(sendMessage)
         stateContext.switchState(chatId, StateNames.CONFIGURATIONS_MENU)
