@@ -2,8 +2,6 @@ spring:
   application:
     name: logbot-log-generator
   kafka:
-    consumer:
-      bootstrap-servers: localhost:9093
     producer:
       bootstrap-servers: localhost:9093
 

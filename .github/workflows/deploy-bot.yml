@@ -55,6 +55,7 @@ jobs:
             --bot.token=${{ secrets.BOT_TOKEN }} \
             --external-services.auth-url=${{ secrets.LOGBOT_AUTH_URL }} \
             --external-services.server-url=${{ secrets.LOGBOT_SERVER_URL }} \
+            --spring.kafka.consumer.bootstrap-servers=${{ secrets.KAFKA_BOOTSTRAP_SERVERS }} \
             ' > ./bot-output.log 2>&1 &
           
     - name: run logbot-web

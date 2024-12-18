@@ -9,6 +9,10 @@ spring:
     database: postgresql
     hibernate:
       ddl-auto: none
+  kafka:
+    consumer:
+      bootstrap-servers: KAFKA_BOOTSTRAP_SERVERS
+      group-id: bot-consumer-group
 
 bot:
   api-url: https://api.telegram.org
