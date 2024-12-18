@@ -23,11 +23,11 @@ class ConfigUtils(private val keyboardCreator: KeyboardCreator) {
         val configsInlineKeyboard = keyboardCreator.createInlineKeyboardMarkup(
             configs.sortedBy { it.id }
                 .associateBy(
-                    { it.name.trim() },
+                    { "(${it.id}) ${it.name.trim().take(20)}" },
                     { it.id.toString() }),
             callbackType
         )
-        val message = SendMessage(chatId.toString(), "Ваши конфигурации:")
+        val message = SendMessage(chatId.toString(), "Ваши конфигурации \uD83D\uDD3D")
         message.replyMarkup = configsInlineKeyboard
         return message
     }
@@ -39,14 +39,14 @@ class ConfigUtils(private val keyboardCreator: KeyboardCreator) {
     fun createConfigsKeyboardWithActiveMarks(configs: List<ConfigDto>): InlineKeyboardMarkup {
         val keyboard = keyboardCreator.createInlineKeyboardMarkup(
             configs.sortedBy { it.id }.associateBy(
-                { "${it.name} ${getActiveMark(it)}" },
+                { "${getActiveMark(it)} (${it.id}) ${it.name.trim().take(20)}" },
                 { it.id.toString() }
             ), CallbackType.MAIN_MENU_ACTIVE_CONFIGURATION_CHOICE
         )
         keyboard.keyboard.add(
             mutableListOf(
                 keyboardCreator.createInlineButton(
-                    "Сделать все неактивными",
+                    "\uD83D\uDD15 Сделать все неактивными",
                     "-1",
                     CallbackType.MAIN_MENU_ACTIVE_CONFIGURATION_CHOICE
                 )
