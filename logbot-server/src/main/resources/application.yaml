@@ -14,12 +14,7 @@ spring:
     enabled: true
     baselineOnMigrate: true
   kafka:
-    consumer:
-      bootstrap-servers: localhost:9093
-      group-id: my-consumer-group
-      auto-offset-reset: earliest
-    producer:
-      bootstrap-servers: localhost:9093
+    bootstrap-servers: 90.156.208.65:10092
 
 
 server:
