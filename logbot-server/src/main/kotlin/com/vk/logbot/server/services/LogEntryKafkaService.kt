@@ -17,7 +17,7 @@ class LogEntryKafkaService(
     private val logger = KLogging().logger
     private val TOPIC = "bot-messages"
 
-    @KafkaListener(topics = ["ser-messages"])
+    @KafkaListener(topics = ["ser-messages"], groupId = "my-consumer-group")
     fun listenMessage(message: String) {
         logger.info { "Received message: $message" }
         logEntryRepository.save(LogEntry(message = message))

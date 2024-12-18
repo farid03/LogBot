@@ -1,15 +1,14 @@
 package com.vk.logbot.server.configs
 
 import com.vk.logbot.commons.models.BotMessage
+import org.apache.kafka.clients.consumer.ConsumerConfig
 import org.apache.kafka.clients.producer.ProducerConfig
 import org.apache.kafka.common.serialization.StringSerializer
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.kafka.annotation.EnableKafka
-import org.springframework.kafka.core.DefaultKafkaProducerFactory
-import org.springframework.kafka.core.KafkaTemplate
-import org.springframework.kafka.core.ProducerFactory
+import org.springframework.kafka.core.*
 import org.springframework.kafka.support.serializer.JsonSerializer
 
 @Configuration
@@ -28,6 +27,15 @@ class KafkaConfig {
 
 
         return DefaultKafkaProducerFactory(producerProps)
+    }
+
+    @Bean
+    fun consumerFactory(): ConsumerFactory<String, BotMessage> {
+        val consumerProps = hashMapOf<String, Any>()
+        consumerProps[ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG] = kafkaUrl
+        consumerProps[ConsumerConfig.AUTO_OFFSET_RESET_CONFIG] = "earliest"
+
+        return DefaultKafkaConsumerFactory(consumerProps);
     }
 
     @Bean
