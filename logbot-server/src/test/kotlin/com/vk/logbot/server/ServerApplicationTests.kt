@@ -11,5 +11,4 @@ class ServerApplicationTests {
     fun contextLoads() {
         1 + 1 shouldBe 2
     }
-
 }
