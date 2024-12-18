@@ -25,8 +25,7 @@ class BotMessagesListener(
         userIds.forEach { userId ->
             val chatId = chatInfoService.getChatIdByUserId(userId)
             if (chatId != null) {
-                val sendMessage = SendMessage(chatId.toString(), "\uD83D\uDEA8 Пришло сообщение:\nbotMessage.message")
-                sendMessage.enableMarkdownV2(true)
+                val sendMessage = SendMessage(chatId.toString(), botMessage.message)
                 botApiMethodExecutor.executeBotApiMethod(sendMessage)
             }
         }
