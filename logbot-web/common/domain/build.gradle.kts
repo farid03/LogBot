@@ -58,7 +58,7 @@ kotlin {
 buildkonfig {
     packageName = "com.vk.logbot.client.domain"
     defaultConfigs {
-        buildConfigField(FieldSpec.Type.STRING, "SERVER_URL", extra["SERVER_URL"] as String)
+        buildConfigField(FieldSpec.Type.STRING, "SERVER_PATH", extra["SERVER_PATH"] as String)
         buildConfigField(FieldSpec.Type.INT, "SERVER_PORT", extra["SERVER_PORT"] as String)
         buildConfigField(FieldSpec.Type.STRING, "SERVER_SHEME", extra["SERVER_SHEME"] as String)
     }

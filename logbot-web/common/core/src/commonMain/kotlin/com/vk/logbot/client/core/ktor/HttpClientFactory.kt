@@ -43,7 +43,7 @@ class HttpClientFactory {
             }
 
             defaultRequest {
-                host = BuildKonfig.SERVER_URL
+                host = BuildKonfig.SERVER_PATH
                 port = BuildKonfig.SERVER_PORT.toInt()
                 url {
                     protocol = URLProtocol.HTTP

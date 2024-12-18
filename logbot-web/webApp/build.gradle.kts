@@ -1,3 +1,4 @@
+import com.codingfeline.buildkonfig.compiler.FieldSpec
 import org.jetbrains.kotlin.gradle.ExperimentalWasmDsl
 import org.jetbrains.kotlin.gradle.targets.js.webpack.KotlinWebpackConfig
 
@@ -7,6 +8,7 @@ plugins {
     alias(libs.plugins.kotlin.multiplatform)
     alias(libs.plugins.kotlin.serialization)
     alias(libs.plugins.kotlin.ksp)
+    alias(libs.plugins.konfig)
 }
 
 kotlin {
@@ -111,6 +113,17 @@ afterEvaluate {
     }.forEach {
         println("SourceJarTask====>${it.name}")
         it.dependsOn("kspCommonMainKotlinMetadata")
+    }
+}
+
+buildkonfig {
+    packageName = "com.vk.logbot.web"
+    defaultConfigs {
+        buildConfigField(
+            FieldSpec.Type.BOOLEAN,
+            "SUPPORT_BROWSER_WITHOUT_TELEGRAM",
+            extra["SUPPORT_BROWSER_WITHOUT_TELEGRAM"] as String
+        )
     }
 }
 
