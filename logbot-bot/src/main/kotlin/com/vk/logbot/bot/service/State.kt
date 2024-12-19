@@ -61,7 +61,7 @@ abstract class State(
     }
 
     /**
-     * Обрабатывает сообщенеи как команду.
+     * Обрабатывает сообщение как команду.
      */
     protected open fun handleCommandMessage(chatId: Long, command: Command) {
         if (Command.START == command) {
