@@ -34,6 +34,7 @@ dependencies {
     implementation("io.github.microutils:kotlin-logging:3.0.5")
     implementation("org.springframework.kafka:spring-kafka")
     implementation("org.springframework:spring-messaging:6.2.0")
+    implementation("org.springframework.boot:spring-boot-starter-security")
 
     // kotlin
     implementation("org.jetbrains.kotlin:kotlin-reflect")
