@@ -1,0 +1,25 @@
+server:
+  port: 8092
+
+main:
+  datasource:
+    url: jdbc:hsqldb:file:.jmix/hsqldb/logbotwebjmix
+    username: sa
+    password:
+  liquibase:
+    change-log: com/vk/logbot/webjmix/liquibase/changelog.xml
+
+jmix:
+  ui:
+    login-view-id: LoginView
+    main-view-id: MainView
+    composite-menu: false
+    allow-anonymous-access: true
+    initial-screen-id: MenuView
+  core:
+    available-locales: ru
+
+vaadin:
+  launch-browser: false
+  pnpm:
+    enable: true

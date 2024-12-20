@@ -5,6 +5,7 @@ include(
     "logbot-server-rest-client",
     "logbot-server",
     "logbot-bot",
+    "logbot-web-jmix",
     "logbot-log-generator",
     "logbot-web",
     "logbot-auth",

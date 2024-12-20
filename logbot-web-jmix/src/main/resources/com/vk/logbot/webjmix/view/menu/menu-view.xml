@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://menuView.title">
+    <layout>
+        <vbox>
+            <span id="welcomeTextSpan"/>
+            <button id="showConfigurationsButton" text="Мои конфигурации"/>
+            <button id="createConfigurationButton" text="Создать новую конфигурацию"/>
+        </vbox>
+    </layout>
+</view>
