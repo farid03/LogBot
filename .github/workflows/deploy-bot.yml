@@ -67,4 +67,8 @@ jobs:
         port: ${{ secrets.PORT_2 }}
         script: |
           cd ${{ env.TARGET_DIR  }}
-          nohup ./gradlew :logbot-web:composeApp:wasmJsBrowserRun > ./web-output.log 2>&1 &
+          nohup ./gradlew :logbot-web-jmix:bootRun  --args=' \
+            --spring.profiles.active=stage \
+            --external-services.auth-url=${{ secrets.LOGBOT_AUTH_URL }} \
+            --external-services.server-url=${{ secrets.LOGBOT_SERVER_URL }} \
+            ' > ./web-output.log 2>&1 &
