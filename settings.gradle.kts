@@ -3,40 +3,9 @@ rootProject.name = "logbot"
 include(
     "logbot-commons",
     "logbot-server-rest-client",
+    "logbot-auth",
     "logbot-server",
     "logbot-bot",
     "logbot-web-jmix",
-    "logbot-log-generator",
-    "logbot-web",
-    "logbot-auth",
-    "logbot-web:composeApp"
+    "logbot-log-generator"
 )
-
-enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
-
-pluginManagement {
-    repositories {
-        google {
-            mavenContent {
-                includeGroupAndSubgroups("androidx")
-                includeGroupAndSubgroups("com.android")
-                includeGroupAndSubgroups("com.google")
-            }
-        }
-        mavenCentral()
-        gradlePluginPortal()
-    }
-}
-
-dependencyResolutionManagement {
-    repositories {
-        google {
-            mavenContent {
-                includeGroupAndSubgroups("androidx")
-                includeGroupAndSubgroups("com.android")
-                includeGroupAndSubgroups("com.google")
-            }
-        }
-        mavenCentral()
-    }
-}
