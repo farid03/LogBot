@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://configurationListView.title">
+    <layout>
+        <vbox>
+            <listBox id="configsListBox"/>
+            <button id="backButton" text="Назад"/>
+        </vbox>
+    </layout>
+</view>

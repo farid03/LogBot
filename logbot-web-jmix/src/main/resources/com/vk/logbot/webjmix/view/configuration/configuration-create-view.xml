@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<view xmlns="http://jmix.io/schema/flowui/view"
+      title="msg://configurationCreateView.title">
+    <layout>
+        <vbox>
+            <textField id="nameTextField" label="Название конфигурации"/>
+            <textField id="regExpTextField" label="Регулярное выражение" helperText="Должно быть корректным"/>
+            <textField id="messageTextField" label="Сообщение, отображаемое при найденном логе"/>
+            <button id="createButton" text="Создать"/>
+            <button id="backButton" text="Назад"/>
+        </vbox>
+    </layout>
+</view>
