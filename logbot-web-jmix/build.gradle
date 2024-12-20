@@ -23,6 +23,12 @@ repositories {
     }
 }
 
+kotlin {
+    jvmToolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
 dependencies {
     implementation project(':logbot-commons')
     implementation project(':logbot-server-rest-client')
