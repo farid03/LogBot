@@ -4,7 +4,7 @@ package com.vk.logbot.webjmix.view.configuration
 import com.vaadin.flow.component.ClickEvent
 import com.vaadin.flow.router.Route
 import com.vk.logbot.serverrestclient.ServerClient
-import com.vk.logbot.webjmix.util.TelegramIdProvider
+import com.vk.logbot.webjmix.service.SessionDataProvider
 import com.vk.logbot.webjmix.view.main.MainView
 import com.vk.logbot.webjmix.view.menu.MenuView
 import io.jmix.flowui.Notifications
@@ -25,7 +25,7 @@ class ConfigurationCreateView : StandardView() {
     private lateinit var serverClient: ServerClient
 
     @Autowired
-    private lateinit var telegramIdProvider: TelegramIdProvider
+    private lateinit var sessionDataProvider: SessionDataProvider
 
     @Autowired
     private lateinit var notifications: Notifications
@@ -58,7 +58,7 @@ class ConfigurationCreateView : StandardView() {
 
         try {
             val newConfig = serverClient.createConfig(
-                telegramIdProvider.getTelegramId()!!,
+                sessionDataProvider.getCurrentTelegramId()!!,
                 nameTextField.value,
                 regExpTextField.value,
                 messageTextField.value,

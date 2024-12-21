@@ -4,7 +4,7 @@ package com.vk.logbot.webjmix.view.menu
 import com.vaadin.flow.component.ClickEvent
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.router.Route
-import com.vk.logbot.webjmix.util.TelegramIdProvider
+import com.vk.logbot.webjmix.service.SessionDataProvider
 import com.vk.logbot.webjmix.view.configuration.ConfigurationCreateView
 import com.vk.logbot.webjmix.view.configuration.ConfigurationListView
 import com.vk.logbot.webjmix.view.main.MainView
@@ -19,7 +19,7 @@ import org.springframework.beans.factory.annotation.Autowired
 class MenuView : StandardView() {
 
     @Autowired
-    private lateinit var telegramIdProvider: TelegramIdProvider
+    private lateinit var sessionDataProvider: SessionDataProvider
 
     @Autowired
     private lateinit var viewNavigators: ViewNavigators
@@ -29,7 +29,7 @@ class MenuView : StandardView() {
 
     @Subscribe
     private fun onInit(event: InitEvent) {
-        welcomeTextSpan.text = "Добро пожаловать! Ваш ID: ${telegramIdProvider.getTelegramId()}"
+        welcomeTextSpan.text = "Добро пожаловать! Ваш ID: ${sessionDataProvider.getCurrentTelegramId()}"
     }
 
     @Subscribe(id = "showConfigurationsButton", subject = "clickListener")

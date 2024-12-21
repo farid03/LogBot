@@ -11,8 +11,7 @@ import com.vaadin.flow.router.Route
 import com.vaadin.flow.theme.lumo.LumoUtility
 import com.vk.logbot.commons.dto.ConfigDto
 import com.vk.logbot.serverrestclient.ServerClient
-import com.vk.logbot.webjmix.util.CurrentConfigIdProvider
-import com.vk.logbot.webjmix.util.TelegramIdProvider
+import com.vk.logbot.webjmix.service.SessionDataProvider
 import com.vk.logbot.webjmix.view.main.MainView
 import com.vk.logbot.webjmix.view.menu.MenuView
 import io.jmix.flowui.Notifications
@@ -33,10 +32,7 @@ class ConfigurationListView : StandardView() {
     private lateinit var serverClient: ServerClient
 
     @Autowired
-    private lateinit var telegramIdProvider: TelegramIdProvider
-
-    @Autowired
-    private lateinit var currentConfigIdProvider: CurrentConfigIdProvider
+    private lateinit var sessionDataProvider: SessionDataProvider
 
     @Autowired
     private lateinit var viewNavigators: ViewNavigators
@@ -70,7 +66,7 @@ class ConfigurationListView : StandardView() {
     @Subscribe
     private fun onInit(event: InitEvent) {
         try {
-            val configurations = serverClient.getConfigsByUserId(telegramIdProvider.getTelegramId()!!)
+            val configurations = serverClient.getConfigsByUserId(sessionDataProvider.getCurrentTelegramId()!!)
             configsListBox.setItems(configurations)
         } catch (ex: Exception) {
             notifications.show("Ошибка загрузки списка конфигураций!")
@@ -82,7 +78,7 @@ class ConfigurationListView : StandardView() {
     @Subscribe("configsListBox")
     private fun onConfigsListBoxComponentValueChange(event: AbstractField.ComponentValueChangeEvent<JmixListBox<ConfigDto>, ConfigDto>) {
         val selectedConfig = event.value
-        currentConfigIdProvider.setCurrentConfigId(selectedConfig.id)
+        sessionDataProvider.setCurrentConfigId(selectedConfig.id)
         viewNavigators.view(this, ConfigurationEditView::class.java).navigate()
     }
 

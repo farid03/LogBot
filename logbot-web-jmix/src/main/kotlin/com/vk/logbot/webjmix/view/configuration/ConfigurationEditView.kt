@@ -5,8 +5,7 @@ import com.vaadin.flow.component.ClickEvent
 import com.vaadin.flow.router.Route
 import com.vk.logbot.commons.dto.ConfigDto
 import com.vk.logbot.serverrestclient.ServerClient
-import com.vk.logbot.webjmix.util.CurrentConfigIdProvider
-import com.vk.logbot.webjmix.util.TelegramIdProvider
+import com.vk.logbot.webjmix.service.SessionDataProvider
 import com.vk.logbot.webjmix.view.main.MainView
 import io.jmix.flowui.Notifications
 import io.jmix.flowui.ViewNavigators
@@ -27,10 +26,7 @@ class ConfigurationEditView : StandardView() {
     private lateinit var serverClient: ServerClient
 
     @Autowired
-    private lateinit var telegramIdProvider: TelegramIdProvider
-
-    @Autowired
-    private lateinit var currentConfigIdProvider: CurrentConfigIdProvider
+    private lateinit var sessionDataProvider: SessionDataProvider
 
     @Autowired
     private lateinit var notifications: Notifications
@@ -52,7 +48,7 @@ class ConfigurationEditView : StandardView() {
 
     @Subscribe
     private fun onInit(event: InitEvent) {
-        val currentConfigId = currentConfigIdProvider.getCurrentConfigId()
+        val currentConfigId = sessionDataProvider.getCurrentConfigId()
 
         if (currentConfigId == null) {
             notifications.show("Конфиг не выбран!")
@@ -92,7 +88,7 @@ class ConfigurationEditView : StandardView() {
 
         try {
             serverClient.editConfig(
-                currentConfigIdProvider.getCurrentConfigId()!!,
+                sessionDataProvider.getCurrentConfigId()!!,
                 nameTextField.value,
                 regExpTextField.value,
                 messageTextField.value,
@@ -107,7 +103,7 @@ class ConfigurationEditView : StandardView() {
     @Subscribe(id = "removeButton", subject = "clickListener")
     private fun onRemoveButtonClick(event: ClickEvent<JmixButton>) {
         try {
-            serverClient.deleteConfig(currentConfigIdProvider.getCurrentConfigId()!!)
+            serverClient.deleteConfig(sessionDataProvider.getCurrentConfigId()!!)
             notifications.show("Конфигурация успешно удалена!")
             viewNavigators.view(this, ConfigurationListView::class.java).navigate()
         } catch (ex: Exception) {
