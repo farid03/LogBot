@@ -2,17 +2,19 @@ package com.vk.logbot.webjmix.service.impl
 
 import com.vk.logbot.webjmix.service.SessionDataProvider
 import io.jmix.core.session.SessionData
+import org.springframework.context.annotation.Profile
 import org.springframework.context.annotation.Scope
 import org.springframework.stereotype.Service
 import org.springframework.web.context.WebApplicationContext
 
 @Service
+@Profile("!dev")
 @Scope(WebApplicationContext.SCOPE_SESSION)
 class SessionDataProviderImpl(private val sessionData: SessionData) : SessionDataProvider {
 
     companion object {
-        private const val TELEGRAM_ID = "telegramId"
-        private const val CURRENT_CONFIG_ID = "currentConfigId"
+        protected const val TELEGRAM_ID = "telegramId"
+        protected const val CURRENT_CONFIG_ID = "currentConfigId"
     }
 
     override fun getCurrentTelegramId(): Long? {
