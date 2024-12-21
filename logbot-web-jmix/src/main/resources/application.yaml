@@ -16,6 +16,8 @@ jmix:
     composite-menu: false
     allow-anonymous-access: true
     initial-screen-id: MenuView
+    view:
+      validation-notification-position: TOP_CENTER
   core:
     available-locales: ru
 

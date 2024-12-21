@@ -1,8 +1,8 @@
 plugins {
+    id 'java'
     id 'io.jmix' version '2.4.2'
     id 'org.jetbrains.kotlin.jvm' version '1.9.25'
     id 'org.jetbrains.kotlin.plugin.spring' version '1.9.25'
-    id 'java'
     id 'org.jetbrains.gradle.plugin.idea-ext' version '1.1.9'
 }
 
@@ -44,8 +44,11 @@ dependencies {
     implementation 'io.jmix.flowui:jmix-flowui-themes'
     implementation 'io.jmix.datatools:jmix-datatools-starter'
     implementation 'io.jmix.datatools:jmix-datatools-flowui-starter'
+    implementation 'io.jmix.translations:jmix-translations-ru'
 
     implementation 'org.springframework.boot:spring-boot-starter-web'
+
+    implementation 'io.github.oshai:kotlin-logging-jvm:7.0.3'
 
     runtimeOnly 'org.hsqldb:hsqldb'
 

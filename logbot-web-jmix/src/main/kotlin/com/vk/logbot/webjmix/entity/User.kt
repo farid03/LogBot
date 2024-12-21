@@ -4,8 +4,6 @@ import io.jmix.core.HasTimeZone
 import io.jmix.core.annotation.Secret
 import io.jmix.core.entity.annotation.JmixGeneratedValue
 import io.jmix.core.entity.annotation.SystemLevel
-import io.jmix.core.metamodel.annotation.DependsOnProperties
-import io.jmix.core.metamodel.annotation.InstanceName
 import io.jmix.core.metamodel.annotation.JmixEntity
 import io.jmix.security.authentication.JmixUserDetails
 import jakarta.persistence.*
@@ -13,11 +11,10 @@ import jakarta.validation.constraints.Email
 import org.springframework.security.core.GrantedAuthority
 import java.util.*
 
+@Suppress("JmixInstanceName")
 @JmixEntity
 @Entity
-@Table(name = "USER_", indexes = [
-    Index(name = "IDX_USER__ON_USERNAME", columnList = "USERNAME", unique = true)
-])
+@Table(name = "USER_")
 open class User : JmixUserDetails, HasTimeZone {
 
     @Id
@@ -59,33 +56,27 @@ open class User : JmixUserDetails, HasTimeZone {
     @Transient
     private var userAuthorities: Collection<GrantedAuthority?>? = null
 
-    override fun getPassword(): String? = password
+    override fun getPassword(): String? {
+        return password
+    }
 
-    override fun getUsername(): String? = username
+    override fun getUsername(): String? {
+        return username
+    }
 
-    override fun getAuthorities(): Collection<GrantedAuthority?> =
-            userAuthorities ?: emptyList()
+    override fun getAuthorities(): Collection<GrantedAuthority?> {
+        return userAuthorities ?: emptyList()
+    }
 
     override fun setAuthorities(authorities: Collection<GrantedAuthority?>) {
         this.userAuthorities = authorities
     }
 
-    override fun isAccountNonExpired(): Boolean = true
-
-    override fun isAccountNonLocked(): Boolean = true
-
-    override fun isCredentialsNonExpired(): Boolean = true
-
-    override fun isEnabled(): Boolean = active == true
-
-    @get:DependsOnProperties("firstName", "lastName", "username")
-    @get:InstanceName
-    val displayName: String
-        get() = "${firstName ?: ""} ${lastName ?: ""} [${username ?: ""}]".trim()
-
     override fun getTimeZoneId(): String? {
         return timeZoneId
     }
 
-    override fun isAutoTimeZone(): Boolean = true
+    override fun isAutoTimeZone(): Boolean {
+        return true
+    }
 }
