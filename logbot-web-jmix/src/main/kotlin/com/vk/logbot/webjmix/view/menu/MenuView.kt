@@ -1,6 +1,5 @@
 package com.vk.logbot.webjmix.view.menu
 
-
 import com.vaadin.flow.component.ClickEvent
 import com.vaadin.flow.component.html.Span
 import com.vaadin.flow.router.Route
@@ -11,18 +10,14 @@ import com.vk.logbot.webjmix.view.main.MainView
 import io.jmix.flowui.ViewNavigators
 import io.jmix.flowui.kit.component.button.JmixButton
 import io.jmix.flowui.view.*
-import org.springframework.beans.factory.annotation.Autowired
 
 @Route(value = "menu-view", layout = MainView::class)
 @ViewController(id = "MenuView")
 @ViewDescriptor(path = "menu-view.xml")
-class MenuView : StandardView() {
-
-    @Autowired
-    private lateinit var sessionDataProvider: SessionDataProvider
-
-    @Autowired
-    private lateinit var viewNavigators: ViewNavigators
+class MenuView(
+    private val sessionDataProvider: SessionDataProvider,
+    private val viewNavigators: ViewNavigators
+) : StandardView() {
 
     @ViewComponent
     private lateinit var welcomeTextSpan: Span

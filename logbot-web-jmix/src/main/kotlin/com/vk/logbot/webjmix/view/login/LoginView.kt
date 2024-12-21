@@ -16,24 +16,16 @@ import io.jmix.flowui.view.*
 import io.jmix.securityflowui.authentication.AuthDetails
 import io.jmix.securityflowui.authentication.LoginViewSupport
 import org.slf4j.LoggerFactory
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
-
-import java.util.Locale
+import java.util.*
 
 @Route(value = "login")
 @ViewController(id = "LoginView")
 @ViewDescriptor(path = "login-view.xml")
-open class LoginView : StandardView(), LocaleChangeObserver {
-
-    @Autowired
-    private lateinit var coreProperties: CoreProperties
-
-    @Autowired
-    private lateinit var loginViewSupport: LoginViewSupport
-
-    @Autowired
-    private lateinit var messageTools: MessageTools
+open class LoginView(
+    private val coreProperties: CoreProperties,
+    private val loginViewSupport: LoginViewSupport,
+    private val messageTools: MessageTools,
+) : StandardView(), LocaleChangeObserver {
 
     @ViewComponent
     private lateinit var login: JmixLoginForm
@@ -50,11 +42,10 @@ open class LoginView : StandardView(), LocaleChangeObserver {
 
     private fun initLocales() {
         val locales: MutableMap<Locale, String> =
-                coreProperties.availableLocales.associateByTo(
-                        mutableMapOf(), { it }, messageTools::getLocaleDisplayName)
-
-        ComponentUtils.setItemsMap(login, locales);
-
+            coreProperties.availableLocales.associateByTo(
+                mutableMapOf(), { it }, messageTools::getLocaleDisplayName
+            )
+        ComponentUtils.setItemsMap(login, locales)
         login.selectedLocale = VaadinSession.getCurrent().locale
     }
 
@@ -62,9 +53,9 @@ open class LoginView : StandardView(), LocaleChangeObserver {
     fun onLogin(event: LoginEvent) {
         try {
             loginViewSupport.authenticate(
-                    AuthDetails.of(event.username, event.password)
-                            .withLocale(login.selectedLocale)
-                            .withRememberMe(login.isRememberMe)
+                AuthDetails.of(event.username, event.password)
+                    .withLocale(login.selectedLocale)
+                    .withRememberMe(login.isRememberMe)
             )
         } catch (e: Exception) {
             log.warn("Login failed for user '{}': {}", event.username, e.toString())

@@ -1,6 +1,5 @@
 package com.vk.logbot.webjmix.view.configuration
 
-
 import com.vaadin.flow.component.ClickEvent
 import com.vaadin.flow.router.Route
 import com.vk.logbot.commons.dto.ConfigDto
@@ -13,26 +12,18 @@ import io.jmix.flowui.component.checkbox.JmixCheckbox
 import io.jmix.flowui.component.textfield.TypedTextField
 import io.jmix.flowui.kit.component.button.JmixButton
 import io.jmix.flowui.view.*
-import org.springframework.beans.factory.annotation.Autowired
 import java.util.regex.Pattern
 import java.util.regex.PatternSyntaxException
 
 @Route(value = "configuration-edit-view", layout = MainView::class)
 @ViewController(id = "ConfigurationEditView")
 @ViewDescriptor(path = "configuration-edit-view.xml")
-class ConfigurationEditView : StandardView() {
-
-    @Autowired
-    private lateinit var serverClient: ServerClient
-
-    @Autowired
-    private lateinit var sessionDataProvider: SessionDataProvider
-
-    @Autowired
-    private lateinit var notifications: Notifications
-
-    @Autowired
-    private lateinit var viewNavigators: ViewNavigators
+class ConfigurationEditView(
+    private val serverClient: ServerClient,
+    private val sessionDataProvider: SessionDataProvider,
+    private val notifications: Notifications,
+    private val viewNavigators: ViewNavigators
+) : StandardView() {
 
     @ViewComponent
     private lateinit var nameTextField: TypedTextField<String>
@@ -70,7 +61,6 @@ class ConfigurationEditView : StandardView() {
         messageTextField.value = currentConfig.message
         isActiveCheckbox.value = currentConfig.active
     }
-
 
     @Subscribe(id = "createButton", subject = "clickListener")
     private fun onCreateButtonClick(event: ClickEvent<JmixButton>) {

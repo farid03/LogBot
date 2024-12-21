@@ -1,6 +1,5 @@
 package com.vk.logbot.webjmix.view.configuration
 
-
 import com.vaadin.flow.component.AbstractField
 import com.vaadin.flow.component.ClickEvent
 import com.vaadin.flow.component.html.Span
@@ -20,28 +19,17 @@ import io.jmix.flowui.ViewNavigators
 import io.jmix.flowui.component.listbox.JmixListBox
 import io.jmix.flowui.kit.component.button.JmixButton
 import io.jmix.flowui.view.*
-import org.springframework.beans.factory.annotation.Autowired
-
 
 @Route(value = "configuration-list-view", layout = MainView::class)
 @ViewController(id = "ConfigurationListView")
 @ViewDescriptor(path = "configuration-list-view.xml")
-class ConfigurationListView : StandardView() {
-
-    @Autowired
-    private lateinit var serverClient: ServerClient
-
-    @Autowired
-    private lateinit var sessionDataProvider: SessionDataProvider
-
-    @Autowired
-    private lateinit var viewNavigators: ViewNavigators
-
-    @Autowired
-    private lateinit var uiComponents: UiComponents
-
-    @Autowired
-    private lateinit var notifications: Notifications
+class ConfigurationListView(
+    private val serverClient: ServerClient,
+    private val sessionDataProvider: SessionDataProvider,
+    private val notifications: Notifications,
+    private val viewNavigators: ViewNavigators,
+    private val uiComponents: UiComponents
+) : StandardView() {
 
     @ViewComponent
     private lateinit var configsListBox: JmixListBox<ConfigDto>

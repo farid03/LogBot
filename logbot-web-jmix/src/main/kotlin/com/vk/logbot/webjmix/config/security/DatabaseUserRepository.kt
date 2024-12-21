@@ -9,7 +9,9 @@ import org.springframework.stereotype.Component
 @Component("UserRepository")
 class DatabaseUserRepository : AbstractDatabaseUserRepository<User>() {
 
-    override fun getUserClass(): Class<User> = User::class.java
+    override fun getUserClass(): Class<User> {
+        return User::class.java
+    }
 
     override fun initAnonymousUser(anonymousUser: User) {
         val authorities = grantedAuthoritiesBuilder
