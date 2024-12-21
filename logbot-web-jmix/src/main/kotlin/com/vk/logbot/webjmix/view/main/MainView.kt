@@ -10,6 +10,7 @@ import com.vk.logbot.webjmix.util.ConfigDataGridDialogsCreator
 import com.vk.logbot.webjmix.util.ConfigDataGridKeyValueEntity
 import com.vk.logbot.webjmix.util.ConfigsDataContainerCreator
 import com.vk.logbot.webjmix.util.ConfigsDataGridCreator
+import io.github.oshai.kotlinlogging.KotlinLogging
 import io.jmix.core.entity.KeyValueEntity
 import io.jmix.flowui.Notifications
 import io.jmix.flowui.app.main.StandardMainView
@@ -35,6 +36,8 @@ open class MainView(
     private val configsDataGridCreator: ConfigsDataGridCreator,
     private val configsDataGridDialogsCreator: ConfigDataGridDialogsCreator
 ) : StandardMainView() {
+
+    private val logger = KotlinLogging.logger {}
 
     @ViewComponent
     private lateinit var layout: VerticalLayout
@@ -102,7 +105,6 @@ open class MainView(
             editButton.isEnabled = isSelected
             removeButton.isEnabled = isSelected
         }
-        configsDataGrid
 
         layout.add(configsDataGrid)
         refreshConfigsDataGrid()
@@ -117,7 +119,8 @@ open class MainView(
             }
             configsDataContainer.setItems(configsKeyValueEntities)
         } catch (e: Exception) {
-            e.printStackTrace()
+            notifications.show("Ошибка обновления списка конфигураций!")
+            logger.error { e.message }
         }
     }
 
@@ -139,7 +142,8 @@ open class MainView(
                 )
                 refreshConfigsDataGrid()
             } catch (e: Exception) {
-                e.printStackTrace()
+                notifications.show("Ошибка создания конфигурации!")
+                logger.error { e.message }
             }
         }
     }
@@ -166,7 +170,8 @@ open class MainView(
                 )
                 refreshConfigsDataGrid()
             } catch (e: Exception) {
-                e.printStackTrace()
+                notifications.show("Ошибка изменения конфигурации!")
+                logger.error { e.message }
             }
         }
     }
@@ -180,7 +185,8 @@ open class MainView(
             serverClient.deleteConfig(configId)
             refreshConfigsDataGrid()
         } catch (e: Exception) {
-            e.printStackTrace()
+            notifications.show("Ошибка удаления конфигурации!")
+            logger.error { e.message }
         }
     }
 

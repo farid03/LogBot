@@ -45,6 +45,9 @@ dependencies {
     // telegram
     implementation("org.telegram:telegrambots-spring-boot-starter:6.9.7.1")
 
+    // logging
+    implementation("io.github.oshai:kotlin-logging-jvm:7.0.3")
+
     // kotlin
     implementation(kotlin("stdlib-jdk8"))
     implementation(kotlin("reflect"))

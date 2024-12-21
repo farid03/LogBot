@@ -4,7 +4,7 @@ import com.vaadin.flow.component.page.AppShellConfigurator
 import com.vaadin.flow.component.page.Push
 import com.vaadin.flow.server.PWA
 import com.vaadin.flow.theme.Theme
-import org.slf4j.LoggerFactory
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.boot.SpringApplication
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.context.event.ApplicationStartedEvent
@@ -19,6 +19,8 @@ class WebJmixApplication(
     private val environment: Environment
 ) : AppShellConfigurator {
 
+    private val logger = KotlinLogging.logger {}
+
     companion object {
         @JvmStatic
         fun main(args: Array<String>) {
@@ -28,10 +30,9 @@ class WebJmixApplication(
 
     @EventListener
     fun printApplicationUrl(event: ApplicationStartedEvent?) {
-        LoggerFactory.getLogger(WebJmixApplication::class.java).info(
-            "Application started at http://localhost:"
-                    + (environment.getProperty("local.server.port") ?: "")
-                    + (environment.getProperty("server.servlet.context-path") ?: "")
-        )
+        val logMessage = "Application started at http://localhost:" +
+                (environment.getProperty("local.server.port") ?: "") +
+                (environment.getProperty("server.servlet.context-path") ?: "")
+        logger.info { logMessage }
     }
 }

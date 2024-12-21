@@ -6,6 +6,7 @@ import com.vk.logbot.bot.service.BotApiMethodExecutor
 import com.vk.logbot.bot.service.ChatInfoService
 import com.vk.logbot.bot.service.State
 import com.vk.logbot.bot.service.StateContext
+import io.github.oshai.kotlinlogging.KotlinLogging
 import org.springframework.context.ApplicationContext
 import org.springframework.stereotype.Service
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage
@@ -19,6 +20,8 @@ class StateContextImpl(
     private val applicationContext: ApplicationContext,
     private val botApiMethodExecutor: BotApiMethodExecutor
 ) : StateContext {
+
+    private val logger = KotlinLogging.logger {}
 
     /**
      * Начальное состояние.
@@ -104,7 +107,7 @@ class StateContextImpl(
      * либо публичное сообщение [BotException].
      */
     private fun handleException(chatId: Long, exception: Throwable) {
-        exception.printStackTrace()
+        logger.error { exception.message }
         val answerText =
             if (exception is BotException) {
                 exception.publicMessage
