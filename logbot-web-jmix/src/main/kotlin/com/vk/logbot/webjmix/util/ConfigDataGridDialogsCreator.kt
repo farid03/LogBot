@@ -3,8 +3,10 @@ package com.vk.logbot.webjmix.util
 import com.vk.logbot.commons.dto.ConfigDto
 import io.jmix.flowui.Dialogs
 import io.jmix.flowui.app.inputdialog.DialogOutcome
+import io.jmix.flowui.app.inputdialog.InputDialog
 import io.jmix.flowui.app.inputdialog.InputDialog.InputDialogCloseEvent
 import io.jmix.flowui.app.inputdialog.InputParameter
+import io.jmix.flowui.component.validation.ValidationErrors
 import io.jmix.flowui.view.View
 import org.springframework.stereotype.Component
 import java.util.function.Consumer
@@ -38,9 +40,7 @@ class ConfigDataGridDialogsCreator(
                     .withLabel("Сообщение")
                     .withRequired(true)
             )
-            .withValidator { context ->
-                regExpValidator.validateRegExp(context.getValue<String>(REG_EXP)!!)
-            }
+            .withValidator(this::validateRegExp)
             .withCloseListener { closeEvent ->
                 if (!closeEvent.closedWith(DialogOutcome.OK)) {
                     return@withCloseListener
@@ -75,9 +75,7 @@ class ConfigDataGridDialogsCreator(
                     .withRequired(true)
                     .withDefaultValue(config.active)
             )
-            .withValidator { context ->
-                regExpValidator.validateRegExp(context.getValue<String>(REG_EXP)!!)
-            }
+            .withValidator(this::validateRegExp)
             .withCloseListener { closeEvent ->
                 if (!closeEvent.closedWith(DialogOutcome.OK)) {
                     return@withCloseListener
@@ -85,5 +83,10 @@ class ConfigDataGridDialogsCreator(
                 onOkAction.accept(closeEvent)
             }
             .open()
+    }
+
+    private fun validateRegExp(context: InputDialog.ValidationContext): ValidationErrors {
+        val regExp = context.getValue<String>(REG_EXP) ?: return ValidationErrors.none()
+        return regExpValidator.validateRegExp(regExp)
     }
 }
