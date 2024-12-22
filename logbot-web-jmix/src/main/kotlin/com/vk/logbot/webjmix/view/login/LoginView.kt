@@ -27,13 +27,13 @@ open class LoginView(
     private val messageTools: MessageTools,
 ) : StandardView(), LocaleChangeObserver {
 
+    private val log = LoggerFactory.getLogger(LoginView::class.java)
+
     @ViewComponent
     private lateinit var login: JmixLoginForm
 
     @ViewComponent
     private lateinit var messageBundle: MessageBundle
-
-    private val log = LoggerFactory.getLogger(LoginView::class.java)
 
     @Subscribe
     fun onInit(event: InitEvent) {

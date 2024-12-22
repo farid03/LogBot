@@ -10,7 +10,9 @@ import org.springframework.web.context.WebApplicationContext
 @Service
 @Profile("!dev")
 @Scope(WebApplicationContext.SCOPE_SESSION)
-class SessionDataProviderImpl(private val sessionData: SessionData) : SessionDataProvider {
+class SessionDataProviderImpl(
+    private val sessionData: SessionData
+) : SessionDataProvider {
 
     companion object {
         protected const val TELEGRAM_ID = "telegramId"

@@ -5,7 +5,8 @@
         <navigationBar/>
         <drawerLayout/>
         <initialLayout>
-            <vbox id="layout">
+            <vbox id="layout"
+                  visible="false">
                 <hbox classNames="buttons-panel">
                     <button id="createButton"
                             text="Создать"

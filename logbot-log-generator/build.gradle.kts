@@ -5,7 +5,7 @@ plugins {
 	id("io.spring.dependency-management") version "1.1.6"
 }
 
-group = "com.example"
+group = "com.vk.logbot"
 version = "0.0.1"
 
 java {

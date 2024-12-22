@@ -1,4 +1,4 @@
-package org.itmo.logbotauth.models
+package org.itmo.logbot.auth.models
 
 import jakarta.persistence.Column
 import jakarta.persistence.Entity

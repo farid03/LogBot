@@ -10,7 +10,7 @@ import org.springframework.web.context.WebApplicationContext
 @Service
 @Profile("dev")
 @Scope(WebApplicationContext.SCOPE_SESSION)
-class SessionDataProviderDevImpl(
+class DevSessionDataProviderImpl(
     sessionData: SessionData
 ) : SessionDataProviderImpl(sessionData) {
 

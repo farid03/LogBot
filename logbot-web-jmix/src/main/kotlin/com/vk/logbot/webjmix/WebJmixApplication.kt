@@ -13,7 +13,7 @@ import org.springframework.core.env.Environment
 
 @Push
 @Theme(value = "logbot-web-jmix")
-@PWA(name = "Logbot Web Jmix", shortName = "Logbot Web Jmix")
+@PWA(name = "Logbot Web", shortName = "Logbot Web")
 @SpringBootApplication
 class WebJmixApplication(
     private val environment: Environment

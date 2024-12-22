@@ -5,6 +5,5 @@ spring:
     producer:
       bootstrap-servers: localhost:9093
 
-
 server:
   port: 8081
