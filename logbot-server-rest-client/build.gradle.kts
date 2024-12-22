@@ -9,6 +9,9 @@ kotlin {
     jvmToolchain {
         languageVersion.set(JavaLanguageVersion.of(17))
     }
+    compilerOptions {
+        freeCompilerArgs.addAll("-Xjsr305=strict")
+    }
 }
 
 repositories {
@@ -21,10 +24,4 @@ dependencies {
 
     // spring
     implementation("org.springframework:spring-web:6.1.13")
-}
-
-kotlin {
-    compilerOptions {
-        freeCompilerArgs.addAll("-Xjsr305=strict")
-    }
 }

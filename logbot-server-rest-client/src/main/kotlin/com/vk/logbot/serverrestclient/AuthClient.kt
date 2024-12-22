@@ -17,4 +17,12 @@ class AuthClient(
             .toEntity<AuthStateDto>()
             .body?.authenticated ?: false
     }
+
+    fun isAuthenticated(telegramId: Long): Boolean {
+        return restClient.get()
+            .uri("$authUrl/auth?telegram_id=$telegramId")
+            .retrieve()
+            .toEntity<AuthStateDto>()
+            .body?.authenticated ?: false
+    }
 }
