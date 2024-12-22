@@ -1,7 +1,7 @@
-package org.itmo.logbotauth.util
+package org.itmo.logbot.auth.util
 
 import jakarta.annotation.PostConstruct
-import org.itmo.logbotauth.services.AuthService
+import org.itmo.logbot.auth.services.AuthService
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.annotation.Profile
 import org.springframework.stereotype.Component

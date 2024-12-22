@@ -1,8 +1,8 @@
-package org.itmo.logbotauth.controllers
+package org.itmo.logbot.auth.controllers
 
 import com.vk.logbot.commons.dto.auth.AuthDto
 import com.vk.logbot.commons.dto.auth.AuthStateDto
-import org.itmo.logbotauth.services.AuthService
+import org.itmo.logbot.auth.services.AuthService
 import org.springframework.web.bind.annotation.*
 
 @RestController

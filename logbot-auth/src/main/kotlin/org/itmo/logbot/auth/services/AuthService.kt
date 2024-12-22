@@ -1,7 +1,7 @@
-package org.itmo.logbotauth.services
+package org.itmo.logbot.auth.services
 
-import org.itmo.logbotauth.models.AuthSession
-import org.itmo.logbotauth.repositories.AuthSessionRepository
+import org.itmo.logbot.auth.models.AuthSession
+import org.itmo.logbot.auth.repositories.AuthSessionRepository
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.stereotype.Service
 import kotlin.jvm.optionals.getOrNull

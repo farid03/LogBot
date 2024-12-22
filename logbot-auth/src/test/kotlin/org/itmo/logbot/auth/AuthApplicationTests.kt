@@ -1,13 +1,12 @@
-package com.example.logbotloggenerator
+package org.itmo.logbot.auth
 
 import org.junit.jupiter.api.Test
 import org.springframework.boot.test.context.SpringBootTest
 
 @SpringBootTest
-class LogbotLogGeneratorApplicationTests {
+class AuthApplicationTests {
 
 	@Test
 	fun contextLoads() {
 	}
-
 }

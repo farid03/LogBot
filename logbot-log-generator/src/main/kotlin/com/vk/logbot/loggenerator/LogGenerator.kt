@@ -1,4 +1,4 @@
-package com.example.logbotloggenerator
+package com.vk.logbot.loggenerator
 
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.scheduling.annotation.Scheduled

@@ -1,4 +1,4 @@
-package com.example.logbotloggenerator
+package com.vk.logbot.loggenerator
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
@@ -6,8 +6,8 @@ import org.springframework.scheduling.annotation.EnableScheduling
 
 @SpringBootApplication
 @EnableScheduling
-class LogbotLogGeneratorApplication
+class LogGeneratorApplication
 
 fun main(args: Array<String>) {
-	runApplication<LogbotLogGeneratorApplication>(*args)
+	runApplication<LogGeneratorApplication>(*args)
 }
