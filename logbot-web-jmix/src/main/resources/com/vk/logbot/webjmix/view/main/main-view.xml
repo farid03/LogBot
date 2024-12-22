@@ -9,14 +9,14 @@
                   visible="false">
                 <hbox classNames="buttons-panel">
                     <button id="createButton"
-                            text="Создать"
+                            icon="PLUS"
                             themeNames="primary success"/>
                     <button id="editButton"
-                            text="Изменить"
+                            icon="EDIT"
                             themeNames="primary"
                             enabled="false"/>
                     <button id="removeButton"
-                            text="Удалить"
+                            icon="TRASH"
                             themeNames="primary error"
                             enabled="false"/>
                     <button id="refreshButton"
