@@ -71,7 +71,7 @@ class ConfigDataGridDialogsCreator(
                     .withDefaultValue(config.message),
 
                 InputParameter.booleanParameter(IS_ACTIVE)
-                    .withLabel("Активен")
+                    .withLabel("Активна")
                     .withRequired(true)
                     .withDefaultValue(config.active)
             )
