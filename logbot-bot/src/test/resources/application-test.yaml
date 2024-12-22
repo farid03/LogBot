@@ -12,3 +12,9 @@ spring:
   h2:
     console:
       enabled: true
+
+bot:
+  api-url:
+  host-url:
+  token:
+  cert-path:
