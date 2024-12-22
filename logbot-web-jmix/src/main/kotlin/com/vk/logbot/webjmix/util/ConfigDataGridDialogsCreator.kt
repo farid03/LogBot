@@ -47,6 +47,8 @@ class ConfigDataGridDialogsCreator(
                 }
                 onOkAction.accept(closeEvent)
             }
+            .withWidth("100%")
+            .withHeight("100%")
             .open()
     }
 
@@ -82,6 +84,8 @@ class ConfigDataGridDialogsCreator(
                 }
                 onOkAction.accept(closeEvent)
             }
+            .withWidth("100%")
+            .withHeight("100%")
             .open()
     }
 
