@@ -88,11 +88,17 @@ open class MainView(
     }
 
     private fun checkUserAuth(telegramId: Long): Boolean {
-        val isAuthenticated = authClient.isAuthenticated(telegramId)
-        if (!isAuthenticated) {
-            notifications.show("Вы не авторизованы через Telegram-бот!")
+        try {
+            val isAuthenticated = authClient.isAuthenticated(telegramId)
+            if (!isAuthenticated) {
+                notifications.show("Вы не авторизованы через Telegram-бот!")
+            }
+            return isAuthenticated
+        } catch (e: Exception) {
+            notifications.show("Ошибка проверки авторизации")
+            logger.error { e.message }
+            return false
         }
-        return isAuthenticated
     }
 
     private fun initInterface() {
