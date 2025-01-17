@@ -50,6 +50,7 @@ dependencies {
     // test
     testImplementation("org.springframework.boot:spring-boot-starter-test")
     testImplementation("io.kotest:kotest-assertions-core:${versions.kotest.get()}")
+    testImplementation("io.mockk:mockk:1.13.16")
 }
 
 allOpen {
