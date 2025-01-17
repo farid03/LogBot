@@ -3,6 +3,7 @@ package com.vk.logbot.loggenerator
 import org.springframework.kafka.core.KafkaTemplate
 import org.springframework.scheduling.annotation.Scheduled
 import org.springframework.stereotype.Service
+import java.sql.Timestamp
 
 @Service
 class LogGenerator(private val kafkaTemplate: KafkaTemplate<String, String>) {
@@ -16,9 +17,12 @@ class LogGenerator(private val kafkaTemplate: KafkaTemplate<String, String>) {
 
     @Scheduled(fixedRate = 5000) // Повторять каждые 5 секунд
     fun generateLog() {
-        sendMessage("2024-12-11 12:00:00 DEBUG LogGenerator - Это сообщение для DEBUG уровня")
-        sendMessage("2024-12-11 12:00:01 INFO  LogGenerator - Это сообщение для INFO уровня")
-        sendMessage("2024-12-11 12:00:01 ERROR LogGenerator - Это информационное WARN уровня")
+        sendMessage("${getCurrentTime()} DEBUG LogGenerator - Это сообщение DEBUG уровня")
+        sendMessage("${getCurrentTime()} INFO  LogGenerator - Это сообщение INFO уровня")
+        sendMessage("${getCurrentTime()} WARN LogGenerator - Это сooбщение WARN уровня")
+        sendMessage("${getCurrentTime()} ERROR LogGenerator - Это сooбщение ERROR уровня")
     }
+
+    private fun getCurrentTime() = Timestamp(System.currentTimeMillis())
 
 }
