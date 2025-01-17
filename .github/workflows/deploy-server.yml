@@ -69,4 +69,5 @@ jobs:
             --spring.datasource.password=${{ secrets.POSTGRES_PASSWORD }} \
             --spring.kafka.consumer.bootstrap-servers=${{ secrets.KAFKA_BOOTSTRAP_SERVERS }} \
             --spring.kafka.producer.bootstrap-servers=${{ secrets.KAFKA_BOOTSTRAP_SERVERS }} \
+            --spring.kafka.bootstrap-servers=${{ secrets.KAFKA_BOOTSTRAP_SERVERS }} \
             ' > ./server-output.log 2>&1 &
