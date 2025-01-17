@@ -13,8 +13,6 @@ spring:
   flyway:
     enabled: true
     baselineOnMigrate: true
-  kafka:
-    bootstrap-servers: 90.156.208.65:10092
 
 
 server:
