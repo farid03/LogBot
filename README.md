@@ -16,7 +16,7 @@ LogBot реализован как групповой проект студен�
 
 ## Команда
 
-* [Владимир Росляков](https://github.com/maxizenit) (Project Manager, Frontend Developer)
+* [Владимир Росляков](https://github.com/Anika1d) (Project Manager, Frontend Developer)
 * [Михаил Ботов](https://github.com/MishaV1) (Backend Developer)
 * [Семён Шагиев](https://github.com/GesuYaro) (Backend Developer)
 * [Максим Пузанов](https://github.com/maxizenit) (Fullstack Developer)
